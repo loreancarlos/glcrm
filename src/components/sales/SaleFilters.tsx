@@ -46,7 +46,9 @@ export function SaleFilters({
   ];
 
   const activeBrokers = brokers.filter(
-    (broker) => broker.role === "broker" && broker.active
+    (broker) =>
+      (broker.role === "broker" || broker.role === "teamLeader") &&
+      broker.active
   );
 
   const developmentOptions = [

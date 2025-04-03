@@ -3,7 +3,6 @@ import { Sale, User } from "../../types";
 import { Combobox } from "../common/Combobox";
 import { formatDate } from "../../utils/format";
 
-
 interface SaleFormProps {
   formData: {
     clientId: string;
@@ -33,43 +32,45 @@ export function SaleForm({
   brokers,
   isEditing,
 }: SaleFormProps) {
-  const activeBrokers = brokers.filter(broker => 
-    broker.role === 'broker' && broker.active
+  const activeBrokers = brokers.filter(
+    (broker) =>
+      (broker.role === "broker" || broker.role === "teamLeader") &&
+      broker.active
   );
 
   const statusOptions = [
-    { value: 'paid', label: 'Pago' },
-    { value: 'canceled', label: 'Cancelado' },
-    { value: 'waiting_contract', label: 'Aguardando a Assinatura do Contrato' },
-    { value: 'waiting_down_payment', label: 'Aguardando Pagamento da Entrada' },
-    { value: 'waiting_seven_days', label: 'Aguardando Prazo de 07 dias' },
-    { value: 'waiting_invoice', label: 'Aguardando a Emissão de Nota Fiscal' },
+    { value: "paid", label: "Pago" },
+    { value: "canceled", label: "Cancelado" },
+    { value: "waiting_contract", label: "Aguardando a Assinatura do Contrato" },
+    { value: "waiting_down_payment", label: "Aguardando Pagamento da Entrada" },
+    { value: "waiting_seven_days", label: "Aguardando Prazo de 07 dias" },
+    { value: "waiting_invoice", label: "Aguardando a Emissão de Nota Fiscal" },
   ];
 
   const downPaymentOptions = [
-    { value: '1', label: 'À Vista' },
-    { value: '2', label: '2' },
-    { value: '3', label: '3' },
-    { value: '4', label: '4' },
-    { value: '5', label: '5' },
-    { value: '6', label: '6' },
-    { value: '7', label: '7' },
-    { value: '8', label: '8' },
-    { value: '9', label: '9' },
-    { value: '10', label: '10' },
+    { value: "1", label: "À Vista" },
+    { value: "2", label: "2" },
+    { value: "3", label: "3" },
+    { value: "4", label: "4" },
+    { value: "5", label: "5" },
+    { value: "6", label: "6" },
+    { value: "7", label: "7" },
+    { value: "8", label: "8" },
+    { value: "9", label: "9" },
+    { value: "10", label: "10" },
   ];
 
-  const clientOptions = clients.map(client => ({
+  const clientOptions = clients.map((client) => ({
     id: client.id,
     label: client.name,
   }));
 
-  const developmentOptions = developments.map(development => ({
+  const developmentOptions = developments.map((development) => ({
     id: development.id,
     label: development.name,
   }));
 
-  const brokerOptions = activeBrokers.map(broker => ({
+  const brokerOptions = activeBrokers.map((broker) => ({
     id: broker.id,
     label: broker.name,
   }));
@@ -87,8 +88,10 @@ export function SaleForm({
 
       <Combobox
         options={clientOptions}
-        value={formData.secondBuyerId || ''}
-        onChange={(value) => setFormData({ ...formData, secondBuyerId: value || null })}
+        value={formData.secondBuyerId || ""}
+        onChange={(value) =>
+          setFormData({ ...formData, secondBuyerId: value || null })
+        }
         placeholder="Selecione um segundo comprador (opcional)"
         label="Segundo Comprador"
         allowClear
@@ -190,10 +193,9 @@ export function SaleForm({
             })
           }
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          required
-        >
+          required>
           <option value="">Selecione o número de parcelas</option>
-          {downPaymentOptions.map(option => (
+          {downPaymentOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
@@ -235,7 +237,7 @@ export function SaleForm({
           }
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           required>
-          {statusOptions.map(option => (
+          {statusOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
