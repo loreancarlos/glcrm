@@ -15,9 +15,15 @@ interface AuthState {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
+  changePassword: (
+    currentPassword: string,
+    newPassword: string
+  ) => Promise<void>;
   adminResetPassword: (userId: string, newPassword: string) => Promise<void>;
-  updateGoogleCalendar: (userId: string, data: GoogleCalendarUpdate) => Promise<void>;
+  updateGoogleCalendar: (
+    userId: string,
+    data: GoogleCalendarUpdate
+  ) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -58,27 +64,34 @@ export const useAuthStore = create<AuthState>()(
           throw new Error("Falha ao redefinir a senha");
         }
       },
-      updateGoogleCalendar: async (userId: string, data: GoogleCalendarUpdate) => {
+      updateGoogleCalendar: async (
+        userId: string,
+        data: GoogleCalendarUpdate
+      ) => {
         try {
           await AuthService.updateGoogleCalendar(userId, {
             accessToken: data.accessToken,
             refreshToken: data.refreshToken,
-            selectedCalendarId: data.selectedCalendarId
+            selectedCalendarId: data.selectedCalendarId,
           });
-          
+
           // Atualiza o estado do usuário com as novas informações do Google Calendar
           set((state) => ({
-            user: state.user ? {
-              ...state.user,
-              google_calendar_token: data.accessToken ?? state.user.google_calendar_token,
-              google_calendar_refresh_token: data.refreshToken ?? state.user.google_calendar_refresh_token,
-              google_calendar_id: data.selectedCalendarId ?? state.user.google_calendar_id
-            } : null
+            user: state.user
+              ? {
+                  ...state.user,
+                  google_calendar_token: data.accessToken ?? null,
+                  google_calendar_refresh_token: data.refreshToken ?? null,
+                  google_calendar_id: data.selectedCalendarId ?? null,
+                }
+              : null,
           }));
         } catch (error) {
-          throw new Error("Falha ao atualizar configurações do Google Calendar");
+          throw new Error(
+            "Falha ao atualizar configurações do Google Calendar"
+          );
         }
-      }
+      },
     }),
     {
       name: "auth-storage",

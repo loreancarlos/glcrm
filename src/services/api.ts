@@ -364,8 +364,8 @@ class ApiClient {
   // Google Calendar methods
   async updateGoogleCalendar(
     userId: string,
-    data: { 
-      accessToken?: string | null; 
+    data: {
+      accessToken?: string | null;
       refreshToken?: string | null;
       selectedCalendarId?: string | null;
     }
@@ -373,6 +373,23 @@ class ApiClient {
     return this.request<void>(`/users/${userId}/google-calendar`, {
       method: "PUT",
       body: JSON.stringify(data),
+    });
+  }
+
+  async exchangeGoogleCode(code: string, location: string) {
+    return this.request<any>("/google-calendar/exchange-code", {
+      method: "POST",
+      body: JSON.stringify({ code, location }),
+    });
+  }
+
+  async getGoogleCalendars() {
+    return this.request<any>("/google-calendar/calendars");
+  }
+
+  async disconnectGoogleCalendar() {
+    return this.request<void>("/google-calendar/disconnect", {
+      method: "POST",
     });
   }
 
