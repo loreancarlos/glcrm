@@ -57,6 +57,8 @@ export function Leads() {
   const teamBrokers = useMemo(() => {
     if (user?.role !== "teamLeader") return [];
     const leaderTeam = teams.find((t) => t.leaderId === user.id);
+    console.log("LEADER TEAM:");
+    console.log(leaderTeam);
     return users.filter(
       (u) =>
         (u.teamId === leaderTeam?.id || leaderTeam?.leaderId === u.id) &&
@@ -329,7 +331,7 @@ export function Leads() {
             isEditing={!!editingLead}
             developments={developments}
             showBrokerField={showBrokerField}
-            brokers={availableBrokers}
+            brokers={user?.role === "admin" ? availableBrokers : teamBrokers}
           />
 
           {operationError && <ErrorMessage message={operationError} />}
@@ -354,7 +356,7 @@ export function Leads() {
         isOpen={isImportModalOpen}
         onClose={() => setIsImportModalOpen(false)}
         onImport={handleImportLeads}
-        brokers={availableBrokers}
+        brokers={user?.role === "admin" ? availableBrokers : teamBrokers}
         developments={developments}
         showBrokerField={showBrokerField}
         currentUserId={user?.id || ""}
