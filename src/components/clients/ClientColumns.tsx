@@ -1,5 +1,6 @@
 import { Client } from "../../types";
 import { formatPhoneDisplay } from "../../utils/format";
+import { formatCPF } from "../../utils/masks";
 
 export const getClientColumns = () => [
   { header: "Nome", accessor: "name" as const },
@@ -7,7 +8,7 @@ export const getClientColumns = () => [
   {
     header: "CPF",
     accessor: "cpf" as const,
-    render: (value: string) => value,
+    render: (value: string) => formatCPF(value),
   },
   {
     header: "Telefone",

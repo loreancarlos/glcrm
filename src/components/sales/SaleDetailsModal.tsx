@@ -2,6 +2,7 @@ import React from "react";
 import { Modal } from "../common/Modal";
 import { Sale, User, Client, Development } from "../../types";
 import { formatCurrency, formatDateDisplay } from "../../utils/format";
+import { formatCPF } from "../../utils/masks";
 
 interface SaleDetailsModalProps {
   isOpen: boolean;
@@ -48,7 +49,9 @@ export function SaleDetailsModal({
           </div>
           <div>
             <h3 className="text-sm font-medium text-gray-500">CPF</h3>
-            <p className="mt-1 text-sm text-gray-900">{client?.cpf}</p>
+            <p className="mt-1 text-sm text-gray-900">
+              {formatCPF(client?.cpf || "")}
+            </p>
           </div>
           {secondBuyer && (
             <div>
@@ -61,7 +64,9 @@ export function SaleDetailsModal({
           {secondBuyer && (
             <div>
               <h3 className="text-sm font-medium text-gray-500">CPF</h3>
-              <p className="mt-1 text-sm text-gray-900">{secondBuyer.cpf}</p>
+              <p className="mt-1 text-sm text-gray-900">
+                {formatCPF(secondBuyer.cpf) || ""}
+              </p>
             </div>
           )}
           <div>
