@@ -53,7 +53,9 @@ export function Combobox({
   }, [value, options]);
 
   const filteredOptions = options.filter((option) =>
-    option.label.toLowerCase().includes(searchTerm.toLowerCase())
+    (option.label ? option.label.toLowerCase() : "").includes(
+      searchTerm.toLowerCase()
+    )
   );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

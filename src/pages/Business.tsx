@@ -176,9 +176,9 @@ export function BusinessPage() {
       const lead = leads.find((lead) => lead.id === business.leadId);
       let matchesSearch;
       if (lead) {
-        matchesSearch = removeAcento(lead.name.toLowerCase()).includes(
-          searchLower
-        );
+        matchesSearch = removeAcento(
+          lead.name ? lead.name.toLowerCase() : lead.name
+        ).includes(searchLower);
       }
       const matchesDevelopment =
         !selectedDevelopment || business.developmentId === selectedDevelopment;
@@ -436,7 +436,9 @@ export function BusinessPage() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Negócios {`(${filteredBusinesses.length})`}</h1>
+        <h1 className="text-2xl font-bold">
+          Negócios {`(${filteredBusinesses.length})`}
+        </h1>
         <div className="flex space-x-2">
           <button
             onClick={handleStartCallMode}

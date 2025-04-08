@@ -57,8 +57,6 @@ export function Leads() {
   const teamBrokers = useMemo(() => {
     if (user?.role !== "teamLeader") return [];
     const leaderTeam = teams.find((t) => t.leaderId === user.id);
-    console.log("LEADER TEAM:");
-    console.log(leaderTeam);
     return users.filter(
       (u) =>
         (u.teamId === leaderTeam?.id || leaderTeam?.leaderId === u.id) &&
@@ -126,12 +124,12 @@ export function Leads() {
     } else {
       filtered = filtered.filter((lead) => lead.brokerId === user?.id);
     }
-
     const searchLower = removeAcento(searchTerm.toLowerCase());
     return filtered.filter(
       (lead) =>
-        removeAcento(lead.name.toLowerCase()).includes(searchLower) ||
-        lead.phone.includes(searchTerm)
+        removeAcento(lead.name ? lead.name.toLowerCase() : lead.name).includes(
+          searchLower
+        ) || lead.phone.includes(searchTerm)
     );
   }, [
     leads,
