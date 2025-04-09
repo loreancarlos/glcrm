@@ -105,8 +105,6 @@ export function Leads() {
 
   const filteredLeads = useMemo(() => {
     let filtered = leads;
-    console.log("LEADS FRONT:");
-    console.log(leads);
     // Filtrar por time e corretor usando a tabela business
     if (user?.role === "admin") {
       if (selectedTeam) {

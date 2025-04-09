@@ -117,7 +117,6 @@ export function BusinessPage() {
 
   const filteredBusinesses = useMemo(() => {
     let filtered = businesses;
-    console.log(filtered);
     // Filtrar por time e corretor
     if (user?.role === "admin") {
       if (selectedTeam) {
@@ -152,14 +151,10 @@ export function BusinessPage() {
       filtered = filtered.filter((business) => business.brokerId === user?.id);
     }
 
-    console.log(filtered);
     // Aplicar outros filtros
     const searchLower = removeAcento(searchTerm.toLowerCase());
     filtered = filtered.filter((business) => {
-      console.log("LEADS");
-      console.log(leads);
       const lead = leads.find((lead) => lead.id === business.leadId);
-      console.log(lead);
       let matchesSearch;
       if (lead) {
         matchesSearch = removeAcento(
@@ -173,8 +168,6 @@ export function BusinessPage() {
 
       return matchesSearch && matchesDevelopment && matchesStatus;
     });
-    console.log("FILTERED 0 PQ?");
-    console.log(filtered);
 
     // Ordenar por data de criação se o status selecionado for 'new'
     if (selectedStatus === "new") {
