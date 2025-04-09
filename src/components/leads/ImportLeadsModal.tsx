@@ -9,7 +9,7 @@ import { User, Development } from "../../types";
 interface ImportLeadsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onImport: (leads: any[]) => Promise<void>;
+  onImport: (leads: any[]) => Promise<any[]>;
   brokers: User[];
   developments: Development[];
   showBrokerField?: boolean;
@@ -35,6 +35,8 @@ export function ImportLeadsModal({
   );
   const [fileData, setFileData] = useState<any[] | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [haveBusiness, setHaveBusiness] = useState<any[] | null>(null);
+  const [numberImports, setNumberImports] = useState(0);
 
   const handleFileUpload = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +106,8 @@ export function ImportLeadsModal({
     }
 
     try {
+      setNumberImports(0);
+      setHaveBusiness([]);
       setIsLoading(true);
       setError(null);
 
@@ -115,9 +119,8 @@ export function ImportLeadsModal({
         brokerId: showBrokerField ? selectedBroker : currentUserId,
         source: "importedList",
       }));
-
-      await onImport(leads);
-      onClose();
+      setNumberImports(leads.length);
+      setHaveBusiness(await onImport(leads));
     } catch (error) {
       setError("Erro ao importar leads. Tente novamente.");
     } finally {
@@ -157,6 +160,8 @@ export function ImportLeadsModal({
   };
 
   const handleClose = () => {
+    setHaveBusiness([]);
+    setNumberImports(0);
     setSelectedBroker("");
     setSelectedDevelopments([]);
     setSearchTerm("");
@@ -307,6 +312,22 @@ export function ImportLeadsModal({
         </div>
 
         {error && <ErrorMessage message={error} />}
+        {haveBusiness && (
+          <div>
+            {haveBusiness.map((business) => (
+              <p className="mt-2 text-sm text-red-600" key={business.id}>
+                Lead {business.leadName} | {business.developmentName} - Corretor{" "}
+                {business.brokerName}
+              </p>
+            ))}
+            {
+              <p className="mt-2 text-sm text-green-600">
+                Total duplicados: {haveBusiness.length} | Total cadastrados:{" "}
+                {numberImports - haveBusiness.length}
+              </p>
+            }
+          </div>
+        )}
 
         <div className="flex justify-end space-x-3">
           <button
@@ -314,7 +335,7 @@ export function ImportLeadsModal({
             onClick={handleClose}
             disabled={isLoading}
             className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-            Cancelar
+            {haveBusiness ? "Fechar" : "Cancelar"}
           </button>
           <button
             type="button"

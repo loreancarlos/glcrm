@@ -117,7 +117,7 @@ export function BusinessPage() {
 
   const filteredBusinesses = useMemo(() => {
     let filtered = businesses;
-
+    console.log(filtered);
     // Filtrar por time e corretor
     if (user?.role === "admin") {
       if (selectedTeam) {
@@ -130,50 +130,36 @@ export function BusinessPage() {
           )
           .map((u) => u.id);
         filtered = filtered.filter((business) =>
-          leads.some(
-            (lead) =>
-              lead.id === business.leadId &&
-              teamBrokerIds.includes(lead.brokerId)
-          )
+          teamBrokerIds.includes(business.brokerId)
         );
       }
       if (selectedBroker) {
-        filtered = filtered.filter((business) =>
-          leads.some(
-            (lead) =>
-              lead.id === business.leadId && lead.brokerId === selectedBroker
-          )
+        filtered = filtered.filter(
+          (business) => business.brokerId === selectedBroker
         );
       }
     } else if (user?.role === "teamLeader") {
       if (selectedBroker) {
-        filtered = filtered.filter((business) =>
-          leads.some(
-            (lead) =>
-              lead.id === business.leadId && lead.brokerId === selectedBroker
-          )
+        filtered = filtered.filter(
+          (business) => business.brokerId === selectedBroker
         );
       } else {
         filtered = filtered.filter((business) =>
-          leads.some(
-            (lead) =>
-              lead.id === business.leadId &&
-              teamBrokers.some((broker) => broker.id === lead.brokerId)
-          )
+          teamBrokers.some((broker) => broker.id === business.brokerId)
         );
       }
     } else {
-      filtered = filtered.filter((business) =>
-        leads.some(
-          (lead) => lead.id === business.leadId && lead.brokerId === user?.id
-        )
-      );
+      filtered = filtered.filter((business) => business.brokerId === user?.id);
     }
 
+    console.log(filtered);
     // Aplicar outros filtros
     const searchLower = removeAcento(searchTerm.toLowerCase());
     filtered = filtered.filter((business) => {
+      console.log("LEADS");
+      console.log(leads);
       const lead = leads.find((lead) => lead.id === business.leadId);
+      console.log(lead);
       let matchesSearch;
       if (lead) {
         matchesSearch = removeAcento(
@@ -187,6 +173,9 @@ export function BusinessPage() {
 
       return matchesSearch && matchesDevelopment && matchesStatus;
     });
+    console.log("FILTERED 0 PQ?");
+    console.log(filtered);
+
     // Ordenar por data de criação se o status selecionado for 'new'
     if (selectedStatus === "new") {
       // Separar negócios em dois grupos: sem lastCallAt e com lastCallAt

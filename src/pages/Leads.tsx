@@ -5,6 +5,7 @@ import { useAuthStore } from "../store/authStore";
 import { useDevelopmentStore } from "../store/developmentStore";
 import { useUserStore } from "../store/userStore";
 import { useTeamStore } from "../store/teamStore";
+import { useBusinessStore } from "../store/businessStore";
 import { Table } from "../components/common/Table";
 import { Modal } from "../components/common/Modal";
 import { ConfirmDialog } from "../components/common/ConfirmDialog";
@@ -20,8 +21,16 @@ import { Combobox } from "../components/common/Combobox";
 
 export function Leads() {
   const { user } = useAuthStore();
-  const { leads, loading, error, fetchLeads, addLead, updateLead, deleteLead } =
-    useLeadStore();
+  const {
+    leads,
+    loading,
+    error,
+    fetchLeads,
+    addLead,
+    addImportLead,
+    updateLead,
+    deleteLead,
+  } = useLeadStore();
   const {
     developments,
     loading: developmentsLoading,
@@ -29,6 +38,7 @@ export function Leads() {
   } = useDevelopmentStore();
   const { users, fetchUsers } = useUserStore();
   const { teams, fetchTeams } = useTeamStore();
+  const { businesses, fetchBusinesses } = useBusinessStore();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTeam, setSelectedTeam] = useState("");
@@ -51,7 +61,8 @@ export function Leads() {
     fetchDevelopments();
     fetchUsers();
     fetchTeams();
-  }, [fetchLeads, fetchDevelopments, fetchUsers, fetchTeams]);
+    fetchBusinesses();
+  }, [fetchLeads, fetchDevelopments, fetchUsers, fetchTeams, fetchBusinesses]);
 
   // Filtrar corretores da equipe do líder
   const teamBrokers = useMemo(() => {
@@ -94,8 +105,9 @@ export function Leads() {
 
   const filteredLeads = useMemo(() => {
     let filtered = leads;
-
-    // Filtrar por time e corretor
+    console.log("LEADS FRONT:");
+    console.log(leads);
+    // Filtrar por time e corretor usando a tabela business
     if (user?.role === "admin") {
       if (selectedTeam) {
         const teamBrokerIds = users
@@ -107,22 +119,40 @@ export function Leads() {
           )
           .map((u) => u.id);
         filtered = filtered.filter((lead) =>
-          teamBrokerIds.includes(lead.brokerId)
+          businesses.some(
+            (business) =>
+              business.leadId === lead.id &&
+              teamBrokerIds.includes(business.brokerId)
+          )
         );
       }
       if (selectedBroker) {
-        filtered = filtered.filter((lead) => lead.brokerId === selectedBroker);
+        filtered = filtered.filter((lead) =>
+          businesses.some(
+            (business) =>
+              business.leadId === lead.id &&
+              business.brokerId === selectedBroker
+          )
+        );
       }
     } else if (user?.role === "teamLeader") {
       if (selectedBroker) {
-        filtered = filtered.filter((lead) => lead.brokerId === selectedBroker);
+        filtered = filtered.filter((lead) =>
+          businesses.some(
+            (business) =>
+              business.leadId === lead.id &&
+              business.brokerId === selectedBroker
+          )
+        );
       } else {
         filtered = filtered.filter((lead) =>
-          teamBrokers.some((broker) => broker.id === lead.brokerId)
+          businesses.some(
+            (business) =>
+              business.leadId === lead.id &&
+              teamBrokers.some((broker) => broker.id === business.brokerId)
+          )
         );
       }
-    } else {
-      filtered = filtered.filter((lead) => lead.brokerId === user?.id);
     }
     const searchLower = removeAcento(searchTerm.toLowerCase());
     return filtered.filter(
@@ -140,6 +170,7 @@ export function Leads() {
     users,
     teams,
     teamBrokers,
+    businesses,
   ]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -164,9 +195,14 @@ export function Leads() {
 
   const handleImportLeads = async (leads: any[]) => {
     try {
+      const haveBusinessWithDevelopment: any[] = [];
       for (const lead of leads) {
-        await addLead(lead);
+        const resp = await addImportLead(lead);
+        if (resp.brokerName) {
+          haveBusinessWithDevelopment.push(resp);
+        }
       }
+      return haveBusinessWithDevelopment;
     } catch (error) {
       setOperationError(
         error instanceof Error ? error.message : "Erro ao importar leads"

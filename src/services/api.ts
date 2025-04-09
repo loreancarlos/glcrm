@@ -277,6 +277,12 @@ class ApiClient {
       body: JSON.stringify(data),
     });
   }
+  async createImportLead(data: any) {
+    return this.request<any>("/leads/import", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
 
   async updateLead(id: string, data: any) {
     return this.request<any>(`/leads/${id}`, {

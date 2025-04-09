@@ -7,6 +7,7 @@ interface LeadState {
   error: string | null;
   fetchLeads: () => Promise<void>;
   addLead: (lead: any) => Promise<any>;
+  addImportLead: (lead: any) => Promise<any>;
   updateLead: (id: string, lead: any) => Promise<void>;
   deleteLead: (id: string) => Promise<void>;
   updateLeadStatus: (id: string, status: string) => Promise<void>;
@@ -39,6 +40,17 @@ export const useLeadStore = create<LeadState>((set, get) => ({
     try {
       set({ loading: false, error: null });
       const lead = await api.createLead(leadData);
+      // Don't add the lead here since it will come through WebSocket
+      return lead;
+    } catch (error) {
+      set({ error: error.message, loading: false });
+      throw error;
+    }
+  },
+  addImportLead: async (leadData) => {
+    try {
+      set({ loading: false, error: null });
+      const lead = await api.createImportLead(leadData);
       // Don't add the lead here since it will come through WebSocket
       return lead;
     } catch (error) {

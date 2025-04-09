@@ -65,8 +65,8 @@ export interface Lead {
   id: string;
   name: string;
   phone: string;
-  brokerId: string;
   developmentsInterest: string[];
+  brokerId: string;
   createdAt: string;
   updatedAt: string;
   lastContact?: Date;
@@ -84,6 +84,7 @@ export interface Business {
   id: string;
   leadId: string;
   developmentId: string;
+  brokerId: string;
   source:
     | "indication"
     | "organic"
