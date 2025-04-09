@@ -71,7 +71,8 @@ export function CallModeModal({
   const [startTime, setStartTime] = useState(new Date());
   const [businessesViewed, setBusinessesViewed] = useState<string[]>([]);
   const [newBusinessesViewed, setNewBusinessesViewed] = useState<string[]>([]);
-  const [localBusinesses, setLocalBusinesses] = useState<Business[]>(businesses);
+  const [localBusinesses, setLocalBusinesses] =
+    useState<Business[]>(businesses);
   const [localLeads, setLocalLeads] = useState<Lead[]>(leads);
   const [initialized, setInitialized] = useState(false);
   const [notes, setNotes] = useState("");
@@ -358,7 +359,9 @@ export function CallModeModal({
   };
 
   const handleEditName = () => {
-    const currentLead = localLeads.find((lead) => lead.id === businesses[currentIndex].leadId);
+    const currentLead = localLeads.find(
+      (lead) => lead.id === businesses[currentIndex].leadId
+    );
     if (currentLead) {
       setTempName(currentLead.name);
       setEditingName(true);
@@ -367,17 +370,22 @@ export function CallModeModal({
 
   const handleSaveName = async () => {
     try {
-      const currentLead = localLeads.find((lead) => lead.id === businesses[currentIndex].leadId);
+      const currentLead = localLeads.find(
+        (lead) => lead.id === businesses[currentIndex].leadId
+      );
       if (currentLead && tempName.trim()) {
-        await api.updateLead(currentLead.id, { ...currentLead, name: tempName.trim() });
+        await api.updateLead(currentLead.id, {
+          ...currentLead,
+          name: tempName.trim(),
+        });
         setEditingName(false);
         setError(null);
-        
+
         // Update local leads array
-        setLocalLeads(prevLeads => 
-          prevLeads.map(lead => 
-            lead.id === currentLead.id 
-              ? { ...lead, name: tempName.trim() } 
+        setLocalLeads((prevLeads) =>
+          prevLeads.map((lead) =>
+            lead.id === currentLead.id
+              ? { ...lead, name: tempName.trim() }
               : lead
           )
         );
@@ -396,7 +404,9 @@ export function CallModeModal({
   const currentBusiness = businesses[currentIndex];
   if (!currentBusiness) return null;
 
-  const currentLead = localLeads.find((lead) => lead.id === currentBusiness.leadId);
+  const currentLead = localLeads.find(
+    (lead) => lead.id === currentBusiness.leadId
+  );
   const currentDevelopment = developments.find(
     (dev) => dev.id === currentBusiness.developmentId
   );
@@ -484,14 +494,14 @@ export function CallModeModal({
                   </div>
                 )}
               </div>
-              {error && (
-                <p className="mt-1 text-sm text-red-600">{error}</p>
-              )}
+              {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
             </div>
             <div>
               <h3 className="text-sm font-medium text-gray-500">Telefone</h3>
               <p className="mt-1 text-lg font-semibold text-gray-900">
-                {formatPhoneDisplay(currentLead.phone)}
+                <a href={`tel:015 ${formatPhoneDisplay(currentLead.phone)}`}>
+                  {`015 ${formatPhoneDisplay(currentLead.phone)}`}
+                </a>
               </p>
             </div>
             <div>
