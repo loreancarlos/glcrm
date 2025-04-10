@@ -585,7 +585,7 @@ export function CallModeModal({
                   </>
                 )}
                 <Toggle
-                  label="Reagendou"
+                  label="Retornar"
                   checked={rescheduled}
                   onChange={(checked) => {
                     setRescheduled(checked);
