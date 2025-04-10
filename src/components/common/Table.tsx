@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Edit2, Trash2, ChevronUp, ChevronDown } from "lucide-react";
+import { Edit2, Trash2, ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Column<T> {
   header: string;
@@ -26,6 +26,7 @@ export function Table<T extends { id: string }>({
   renderActions,
 }: TableProps<T>) {
   const [tableData, setTableData] = useState<T[]>(data);
+  const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState<{
     key: keyof T | null;
     direction: "asc" | "desc" | null;
@@ -34,8 +35,12 @@ export function Table<T extends { id: string }>({
     direction: null,
   });
 
+  const ITEMS_PER_PAGE = 20;
+  const totalPages = Math.ceil(tableData.length / ITEMS_PER_PAGE);
+
   useEffect(() => {
     setTableData(data);
+    setCurrentPage(1); // Reset to first page when data changes
   }, [data]);
 
   const handleSort = (key: keyof T) => {
@@ -77,6 +82,7 @@ export function Table<T extends { id: string }>({
     });
 
     setTableData(sortedData);
+    setCurrentPage(1); // Reset to first page when sorting
   };
 
   const getSortIcon = (key: keyof T) => {
@@ -90,39 +96,49 @@ export function Table<T extends { id: string }>({
     );
   };
 
+  const getCurrentPageData = () => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return tableData.slice(startIndex, endIndex);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <div className="overflow-x-auto -mx-4 sm:mx-0">
-      <div className="inline-block min-w-full align-middle">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              {columns.map((column) => (
-                <th
-                  key={String(column.accessor)}
-                  onClick={() =>
-                    column.sortable !== false && handleSort(column.accessor)
-                  }
-                  className={`px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap ${
-                    column.sortable !== false
-                      ? "cursor-pointer hover:bg-gray-100"
-                      : ""
-                  }`}>
-                  <div className="flex items-center space-x-1">
-                    <span>{column.header}</span>
-                    {column.sortable !== false && getSortIcon(column.accessor)}
-                  </div>
-                </th>
-              ))}
-              {(onEdit || onDelete || renderActions) && (
-                <th className="px-3 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-20">
-                  Ações
-                </th>
-              )}
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {tableData &&
-              tableData.map((item) => (
+    <div className="space-y-4">
+      <div className="overflow-x-auto -mx-4 sm:mx-0">
+        <div className="inline-block min-w-full align-middle">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                {columns.map((column) => (
+                  <th
+                    key={String(column.accessor)}
+                    onClick={() =>
+                      column.sortable !== false && handleSort(column.accessor)
+                    }
+                    className={`px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap ${
+                      column.sortable !== false
+                        ? "cursor-pointer hover:bg-gray-100"
+                        : ""
+                    }`}>
+                    <div className="flex items-center space-x-1">
+                      <span>{column.header}</span>
+                      {column.sortable !== false && getSortIcon(column.accessor)}
+                    </div>
+                  </th>
+                ))}
+                {(onEdit || onDelete || renderActions) && (
+                  <th className="px-3 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-20">
+                    Ações
+                  </th>
+                )}
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {getCurrentPageData().map((item) => (
                 <tr
                   key={item.id}
                   onClick={() => onRowClick?.(item)}
@@ -172,9 +188,75 @@ export function Table<T extends { id: string }>({
                   )}
                 </tr>
               ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between px-4">
+          <div className="flex items-center text-sm text-gray-500">
+            Mostrando {((currentPage - 1) * ITEMS_PER_PAGE) + 1} a {Math.min(currentPage * ITEMS_PER_PAGE, tableData.length)} de {tableData.length} resultados
+          </div>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`p-2 rounded ${
+                currentPage === 1
+                  ? "text-gray-300 cursor-not-allowed"
+                  : "text-gray-500 hover:bg-gray-100"
+              }`}>
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter(page => {
+                const distance = Math.abs(page - currentPage);
+                return distance === 0 || distance === 1 || page === 1 || page === totalPages;
+              })
+              .map((page, index, array) => {
+                if (index > 0 && array[index - 1] !== page - 1) {
+                  return [
+                    <span key={`ellipsis-${page}`} className="px-3 py-2">...</span>,
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`px-3 py-2 rounded ${
+                        currentPage === page
+                          ? "bg-indigo-600 text-white"
+                          : "text-gray-500 hover:bg-gray-100"
+                      }`}>
+                      {page}
+                    </button>
+                  ];
+                }
+                return (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`px-3 py-2 rounded ${
+                      currentPage === page
+                        ? "bg-indigo-600 text-white"
+                        : "text-gray-500 hover:bg-gray-100"
+                    }`}>
+                    {page}
+                  </button>
+                );
+              })}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`p-2 rounded ${
+                currentPage === totalPages
+                  ? "text-gray-300 cursor-not-allowed"
+                  : "text-gray-500 hover:bg-gray-100"
+              }`}>
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

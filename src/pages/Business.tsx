@@ -67,6 +67,7 @@ export function BusinessPage() {
     notes: "",
   });
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
+  const [hasValidationErrors, setHasValidationErrors] = useState(false);
 
   useEffect(() => {
     fetchLeads();
@@ -76,7 +77,6 @@ export function BusinessPage() {
     fetchUsers();
   }, [fetchBusinesses, fetchLeads, fetchDevelopments, fetchTeams, fetchUsers]);
 
-  // Filtrar corretores da equipe do líder
   const teamBrokers = useMemo(() => {
     if (user?.role !== "teamLeader") return [];
     const leaderTeam = teams.find((t) => t.leaderId === user.id);
@@ -87,7 +87,6 @@ export function BusinessPage() {
     );
   }, [users, user, teams]);
 
-  // Filtrar corretores disponíveis para o admin baseado no time selecionado
   const availableBrokers = useMemo(() => {
     if (user?.role !== "admin") return [];
     if (selectedTeam) {
@@ -103,7 +102,6 @@ export function BusinessPage() {
     );
   }, [users, selectedTeam, teams, user]);
 
-  // Limpar o corretor selecionado se ele não pertencer ao time selecionado
   useEffect(() => {
     if (user?.role === "admin" && selectedTeam && selectedBroker) {
       const brokerBelongsToTeam = availableBrokers.some(
@@ -115,9 +113,14 @@ export function BusinessPage() {
     }
   }, [selectedTeam, availableBrokers, selectedBroker, user]);
 
+  useEffect(() => {
+    if (hasValidationErrors) {
+      setHasValidationErrors(false);
+    }
+  }, [selectedDevelopment, selectedStatus]);
+
   const filteredBusinesses = useMemo(() => {
     let filtered = businesses;
-    // Filtrar por time e corretor
     if (user?.role === "admin") {
       if (selectedTeam) {
         const teamBrokerIds = users
@@ -151,7 +154,6 @@ export function BusinessPage() {
       filtered = filtered.filter((business) => business.brokerId === user?.id);
     }
 
-    // Aplicar outros filtros
     const searchLower = removeAcento(searchTerm.toLowerCase());
     filtered = filtered.filter((business) => {
       const lead = leads.find((lead) => lead.id === business.leadId);
@@ -169,13 +171,10 @@ export function BusinessPage() {
       return matchesSearch && matchesDevelopment && matchesStatus;
     });
 
-    // Ordenar por data de criação se o status selecionado for 'new'
     if (selectedStatus === "new") {
-      // Separar negócios em dois grupos: sem lastCallAt e com lastCallAt
       const withoutLastCall = filtered.filter((b) => !b.lastCallAt);
       const withLastCall = filtered.filter((b) => b.lastCallAt);
 
-      // Ordenar cada grupo
       withoutLastCall.sort(
         (a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -185,7 +184,6 @@ export function BusinessPage() {
           new Date(a.lastCallAt!).getTime() - new Date(b.lastCallAt!).getTime()
       );
 
-      // Combinar os grupos
       filtered = [...withoutLastCall, ...withLastCall];
     }
 
@@ -208,7 +206,6 @@ export function BusinessPage() {
     e.preventDefault();
     try {
       if (editingBusiness) {
-        // Verifica se houve mudança de status
         if (editingBusiness.status !== formData.status) {
           let countWhatsapp = 0;
           let countRecall = 0;
@@ -216,7 +213,6 @@ export function BusinessPage() {
           let countLost = 0;
           let countTalked = 0;
 
-          // Incrementa os contadores baseado no novo status
           if (formData.status === "whatsapp") {
             countWhatsapp = 1;
           } else if (formData.status === "recall") {
@@ -228,7 +224,6 @@ export function BusinessPage() {
           } else if (formData.status === "lost") {
             countLost = 1;
           }
-          // Cria uma nova sessão para registrar a mudança de status
           await createSession({
             startTime: new Date(),
             endTime: new Date(),
@@ -302,8 +297,12 @@ export function BusinessPage() {
   };
 
   const handleStartCallMode = async () => {
+    if (selectedStatus !== "new" || !selectedDevelopment) {
+      setHasValidationErrors(true);
+      return;
+    }
+
     try {
-      // Criar uma nova sessão ao iniciar o modo de ligação
       const session = await createSession({
         startTime: new Date(),
         endTime: new Date(),
@@ -424,7 +423,6 @@ export function BusinessPage() {
         <div className="flex space-x-2">
           <button
             onClick={handleStartCallMode}
-            disabled={selectedStatus != "new"}
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
             <Play className="h-4 w-4 mr-2" />
             Modo de Ligação
@@ -455,6 +453,7 @@ export function BusinessPage() {
         onBrokerChange={setSelectedBroker}
         teamBrokers={teamBrokers}
         availableBrokers={availableBrokers}
+        hasValidationErrors={hasValidationErrors}
       />
 
       {(businessError || operationError) && (

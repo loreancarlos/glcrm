@@ -20,6 +20,7 @@ interface BusinessFiltersProps {
   onBrokerChange?: (value: string) => void;
   teamBrokers?: User[];
   availableBrokers?: User[];
+  hasValidationErrors?: boolean;
 }
 
 export function BusinessFilters({
@@ -39,6 +40,7 @@ export function BusinessFilters({
   onBrokerChange,
   teamBrokers = [],
   availableBrokers = [],
+  hasValidationErrors = false,
 }: BusinessFiltersProps) {
   const developmentOptions = [
     { id: "", label: "" },
@@ -69,6 +71,8 @@ export function BusinessFilters({
     { id: "lost", label: "Perdido" },
   ];
 
+  const shouldShowError = hasValidationErrors && (!selectedDevelopment || selectedStatus !== "new");
+
   return (
     <div className="space-y-4">
       <SearchInput
@@ -85,6 +89,7 @@ export function BusinessFilters({
           placeholder="Todos os empreendimentos"
           label="Empreendimento"
           allowClear
+          error={shouldShowError && !selectedDevelopment}
         />
 
         {showTeamFilter && onTeamChange && (
@@ -116,6 +121,7 @@ export function BusinessFilters({
           placeholder="Todos os status"
           label="Status"
           allowClear
+          error={shouldShowError && selectedStatus !== "new"}
         />
       </div>
     </div>
