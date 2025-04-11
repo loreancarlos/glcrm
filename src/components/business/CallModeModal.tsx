@@ -297,7 +297,6 @@ export function CallModeModal({
       (lead) => lead.id === businesses[currentIndex].leadId
     );
     const now = new Date();
-    console.log(thisLead);
     if (thisLead) {
       await onLeadUpdate(thisLead.id, now);
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Login } from "./pages/Login";
 import { Clients } from "./pages/Clients";
@@ -8,7 +8,7 @@ import { Sales } from "./pages/Sales";
 import { Users } from "./pages/Users";
 import { Commissions } from "./pages/Commissions";
 import { Leads } from "./pages/Leads";
-import { BusinessPage } from "./pages/Business";
+import { Businesses } from "./pages/Business";
 import { Reports } from "./pages/Reports";
 import { Profile } from "./pages/Profile";
 import { useAuthStore } from "./store/authStore";
@@ -103,7 +103,7 @@ export function App() {
             path="/business"
             element={
               <PrivateRoute requireBrokerOrTeamLeaderOrAdmin>
-                <BusinessPage />
+                <Businesses />
               </PrivateRoute>
             }
           />

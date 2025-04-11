@@ -1,5 +1,5 @@
-import React from 'react';
-import { X } from 'lucide-react';
+import React from "react";
+import { X } from "lucide-react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -20,12 +20,11 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
           <div className="absolute top-0 right-0 pt-4 pr-4">
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-500 focus:outline-none"
-            >
+              className="text-gray-400 hover:text-gray-500 focus:outline-none">
               <X className="h-6 w-6" />
             </button>
           </div>
-          
+
           <div className="sm:flex sm:items-start">
             <div className="w-full">
               <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">
