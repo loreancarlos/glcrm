@@ -297,8 +297,10 @@ export function BusinessPage() {
   };
 
   const handleStartCallMode = async () => {
+    console.log("CLIQUEI");
     if (selectedStatus !== "new" || !selectedDevelopment) {
       setHasValidationErrors(true);
+      console.log("NÃO ESTÁ TUDO SELECIONADO AINDA");
       return;
     }
 
@@ -318,6 +320,7 @@ export function BusinessPage() {
         notReceivingCalls: 0,
       });
       setCurrentSessionId(session.id);
+      console.log(isCallModeOpen);
       setIsCallModeOpen(true);
     } catch (error) {
       setOperationError(
@@ -378,6 +381,9 @@ export function BusinessPage() {
 
   const handleLeadUpdate = async (leadId: string, lastCallAt: Date) => {
     try {
+      console.log("CHEGUEI NO HANDLE LEAD UPDATE");
+      console.log(leadId);
+      console.log(lastCallAt);
       await updateLead(leadId, { lastContact: lastCallAt });
     } catch (error) {
       setOperationError(

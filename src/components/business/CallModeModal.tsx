@@ -232,6 +232,9 @@ export function CallModeModal({
       let nextIndex = currentIndex;
       if (!answered && selectedStatus !== "new") {
         nextIndex++;
+        setNotes(businesses[nextIndex].notes || "");
+      } else {
+        setNotes(businesses[nextIndex + 1].notes || "");
       }
       setCurrentIndex(nextIndex);
       // Adiciona o próximo negócio à lista de visualizados
@@ -241,7 +244,6 @@ export function CallModeModal({
         setBusinessesViewed(updatedBusinessesViewed);
       }
       // Atualiza as notas para o próximo negócio
-      setNotes(businesses[nextIndex + 1].notes || "");
       resetCallStatus();
     }
   };
@@ -290,11 +292,12 @@ export function CallModeModal({
     await saveCurrentStatus();
 
     // Update lastContact for this lead
+
     const thisLead = localLeads.find(
       (lead) => lead.id === businesses[currentIndex].leadId
     );
     const now = new Date();
-
+    console.log(thisLead);
     if (thisLead) {
       await onLeadUpdate(thisLead.id, now);
     }
@@ -313,7 +316,7 @@ export function CallModeModal({
       invalidNumberCalls: finalInvalidNumberCount,
       notReceivingCalls: finalNotReceivingCount,
     });
-
+    setInitialized(false);
     onClose();
   };
 
