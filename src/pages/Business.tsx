@@ -159,9 +159,10 @@ export function Businesses() {
       const lead = leads.find((lead) => lead.id === business.leadId);
       let matchesSearch;
       if (lead) {
-        matchesSearch = removeAcento(
-          lead.name ? lead.name.toLowerCase() : lead.name
-        ).includes(searchLower);
+        matchesSearch =
+          removeAcento(
+            lead.name ? lead.name.toLowerCase() : lead.name
+          ).includes(searchLower) || lead.phone.includes(searchTerm);
       }
       const matchesDevelopment =
         !selectedDevelopment || business.developmentId === selectedDevelopment;

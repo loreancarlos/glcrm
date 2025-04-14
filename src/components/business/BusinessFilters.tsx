@@ -78,7 +78,7 @@ export function BusinessFilters({
       <SearchInput
         value={searchTerm}
         onChange={onSearchChange}
-        placeholder="Pesquisar por lead ou empreendimento..."
+        placeholder="Pesquisar por nome, telefone ou empreendimento..."
       />
 
       <div className={`grid grid-cols-1 ${showTeamFilter ? 'md:grid-cols-4' : showBrokerFilter ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-4`}>
