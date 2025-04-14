@@ -352,9 +352,9 @@ export function CallModeModal({
       } else if (notInterested) {
         status = "lost";
       }
-      if (whatsapp) {
-        status = "whatsapp";
-      }
+    }
+    if (whatsapp) {
+      status = "whatsapp";
     }
     updates.lastCallAt = now;
     updates.status = status;

@@ -153,7 +153,7 @@ export function Leads() {
       }
     }
     const searchLower = removeAcento(searchTerm.toLowerCase());
-    filtered.filter(
+    filtered = filtered.filter(
       (lead) =>
         removeAcento(lead.name ? lead.name.toLowerCase() : lead.name).includes(
           searchLower
