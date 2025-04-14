@@ -171,14 +171,14 @@ export function CallModeModal({
       }
       if (rescheduled) {
         newRecallCount++;
-      } else if (whatsapp) {
-        newWhatsappCount++;
       } else if (notInterested) {
         newNotInterestCount++;
       }
     } else {
       if (voicemail) {
         newVoicemailCount++;
+      } else if (whatsapp) {
+        newWhatsappCount++;
       } else if (numberNotExists) {
         newInvalidNumberCount++;
       } else if (notReceivingCalls) {
@@ -273,14 +273,14 @@ export function CallModeModal({
       }
       if (rescheduled) {
         finalRecallCount++;
-      } else if (whatsapp) {
-        finalWhatsappCount++;
       } else if (notInterested) {
         finalNotInterestCount++;
       }
     } else {
       if (voicemail) {
         finalVoicemailCount++;
+      } else if (whatsapp) {
+        finalWhatsappCount++;
       } else if (numberNotExists) {
         finalInvalidNumberCount++;
       } else if (notReceivingCalls) {
@@ -349,10 +349,11 @@ export function CallModeModal({
       if (rescheduled) {
         status = "recall";
         updates.recallAt = scheduledDateTime;
-      } else if (whatsapp) {
-        status = "whatsapp";
       } else if (notInterested) {
         status = "lost";
+      }
+      if (whatsapp) {
+        status = "whatsapp";
       }
     }
     updates.lastCallAt = now;
@@ -536,7 +537,6 @@ export function CallModeModal({
                   setTalked(false);
                   setScheduled(false);
                   setRescheduled(false);
-                  setWhatsapp(false);
                   setNotInterested(false);
                   setScheduledDateTime("");
                 }
@@ -614,19 +614,6 @@ export function CallModeModal({
                 )}
 
                 <Toggle
-                  label="WhatsApp"
-                  checked={whatsapp}
-                  onChange={(checked) => {
-                    setWhatsapp(checked);
-                    if (checked) {
-                      setScheduled(false);
-                      setRescheduled(false);
-                      setNotInterested(false);
-                    }
-                  }}
-                />
-
-                <Toggle
                   label="Não tem interesse"
                   checked={notInterested}
                   onChange={(checked) => {
@@ -662,6 +649,18 @@ export function CallModeModal({
                 />
               </div>
             )}
+            <Toggle
+              label="WhatsApp"
+              checked={whatsapp}
+              onChange={(checked) => {
+                setWhatsapp(checked);
+                if (checked) {
+                  setScheduled(false);
+                  setRescheduled(false);
+                  setNotInterested(false);
+                }
+              }}
+            />
 
             <div>
               <label className="block text-sm font-medium text-gray-700">
