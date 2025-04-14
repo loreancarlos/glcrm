@@ -9,6 +9,7 @@ import { ErrorMessage } from "../components/common/ErrorMessage";
 import { ReportFilters } from "../components/reports/ReportFilters";
 import { ReportSummary } from "../components/reports/ReportSummary";
 import { ReportData } from "../types";
+import { useDevelopmentStore } from "../store/developmentStore";
 
 export function Reports() {
   const { user } = useAuthStore();
@@ -22,6 +23,12 @@ export function Reports() {
     fetchSessions,
   } = useCallModeSessionStore();
 
+  const {
+    developments,
+    loading: developmentsLoading,
+    fetchDevelopments,
+  } = useDevelopmentStore();
+
   const [startDate, setStartDate] = useState(
     new Date(new Date().setHours(0, 0, 0, 0)).toISOString().split("T")[0]
   );
@@ -31,13 +38,21 @@ export function Reports() {
   const [selectedTeam, setSelectedTeam] = useState("");
   const [selectedBroker, setSelectedBroker] = useState("");
   const [selectedSource, setSelectedSource] = useState("");
+  const [selectedDevelopment, setSelectedDevelopment] = useState("");
 
   useEffect(() => {
     fetchSessions();
     fetchTeams();
     fetchUsers();
     fetchBusinesses();
-  }, [fetchSessions, fetchTeams, fetchUsers, fetchBusinesses]);
+    fetchDevelopments();
+  }, [
+    fetchSessions,
+    fetchTeams,
+    fetchUsers,
+    fetchBusinesses,
+    fetchDevelopments,
+  ]);
 
   // Filter brokers based on team selection and user role
   const availableBrokers = useMemo(() => {
@@ -114,6 +129,18 @@ export function Reports() {
       });
     }
 
+    if (selectedDevelopment) {
+      filtered = filtered.filter((session) => {
+        const sessionBusinesses = session.businessViewed.map(
+          (businessId) =>
+            businesses.find((b) => b.id === businessId)?.developmentId
+        );
+        return sessionBusinesses.some(
+          (developmentId) => developmentId === selectedDevelopment
+        );
+      });
+    }
+
     return filtered;
   }, [
     sessions,
@@ -122,6 +149,7 @@ export function Reports() {
     selectedTeam,
     selectedBroker,
     selectedSource,
+    selectedDevelopment,
     user,
     availableBrokers,
     businesses,
@@ -163,7 +191,7 @@ export function Reports() {
     setSelectedBroker("");
   };
 
-  if (sessionsLoading) {
+  if (sessionsLoading || developmentsLoading) {
     return <LoadingSpinner />;
   }
 
@@ -188,6 +216,9 @@ export function Reports() {
         availableBrokers={availableBrokers}
         selectedSource={selectedSource}
         onSourceChange={setSelectedSource}
+        developments={developments}
+        selectedDevelopment={selectedDevelopment}
+        onDevelopmentChange={setSelectedDevelopment}
       />
 
       {sessionsError && <ErrorMessage message={sessionsError} />}

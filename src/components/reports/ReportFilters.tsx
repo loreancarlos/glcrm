@@ -1,5 +1,5 @@
 import React from "react";
-import { Team, User, Business } from "../../types";
+import { Team, User, Business, Development } from "../../types";
 import { Combobox } from "../common/Combobox";
 
 interface ReportFiltersProps {
@@ -17,6 +17,9 @@ interface ReportFiltersProps {
   availableBrokers?: User[];
   selectedSource: string;
   onSourceChange: (value: string) => void;
+  developments?: Development[];
+  selectedDevelopment: string;
+  onDevelopmentChange: (value: string) => void;
 }
 
 export function ReportFilters({
@@ -34,6 +37,9 @@ export function ReportFilters({
   availableBrokers = [],
   selectedSource,
   onSourceChange,
+  developments = [],
+  selectedDevelopment,
+  onDevelopmentChange,
 }: ReportFiltersProps) {
   const teamOptions = [
     { id: "", label: "" },
@@ -58,36 +64,45 @@ export function ReportFilters({
     { id: "importedList", label: "Lista Importada" },
   ];
 
+  const developmentOptions = [
+    { id: "", label: "" },
+    ...developments.map((development) => ({
+      id: development.id,
+      label: development.name,
+    })),
+  ];
+
   return (
     <div className="space-y-4">
       <div
         className={`grid grid-cols-1 ${
           showTeamFilter ? "md:grid-cols-5" : "md:grid-cols-4"
         } gap-4`}>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Data Inicial
-          </label>
-          <input
-            type="date"
-            value={startDate}
-            onChange={(e) => onStartDateChange(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          />
-        </div>
+        <div className="grid gap-2">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Data Inicial
+            </label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => onStartDateChange(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            />
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Data Final
-          </label>
-          <input
-            type="date"
-            value={endDate}
-            onChange={(e) => onEndDateChange(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Data Final
+            </label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => onEndDateChange(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            />
+          </div>
         </div>
-
         {showTeamFilter && onTeamChange && (
           <Combobox
             options={teamOptions}
@@ -116,6 +131,15 @@ export function ReportFilters({
           onChange={onSourceChange}
           placeholder="Todas as origens"
           label="Origem"
+          allowClear
+        />
+
+        <Combobox
+          options={developmentOptions}
+          value={selectedDevelopment}
+          onChange={onDevelopmentChange}
+          placeholder="Todos os Empreendimentos"
+          label="Empreendimento"
           allowClear
         />
       </div>
