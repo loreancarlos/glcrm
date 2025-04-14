@@ -1,8 +1,9 @@
-import React from "react";
-import { Business, Development, Lead } from "../../types";
+import React, { useState, useEffect } from "react";
+import { Business, Development, Lead, User, Team } from "../../types";
 import { Combobox } from "../common/Combobox";
 import { formatDateTimeBusinessForm } from "../../utils/format";
 import { useBusinessStore } from "../../store/businessStore";
+import { useAuthStore } from "../../store/authStore";
 
 interface BusinessFormProps {
   formData: Partial<Business>;
@@ -10,6 +11,8 @@ interface BusinessFormProps {
   leads: Lead[];
   developments: Development[];
   isEditing: boolean;
+  brokers?: User[];
+  showBrokerField?: boolean;
 }
 
 export function BusinessForm({
@@ -18,8 +21,11 @@ export function BusinessForm({
   leads,
   developments,
   isEditing,
+  brokers = [],
+  showBrokerField = false,
 }: BusinessFormProps) {
   const { businesses } = useBusinessStore();
+  const { user } = useAuthStore();
 
   const sourceOptions = [
     { value: "paidTraffic", label: "Tráfego Pago" },
@@ -45,6 +51,16 @@ export function BusinessForm({
       id: lead.id,
       label: lead.name,
     })),
+  ];
+
+  const brokerOptions = [
+    { id: "", label: "" },
+    ...brokers
+      .filter((broker) => broker.active)
+      .map((broker) => ({
+        id: broker.id,
+        label: broker.name,
+      })),
   ];
 
   // Filtra os empreendimentos disponíveis com base nos negócios existentes do lead
@@ -92,6 +108,7 @@ export function BusinessForm({
         disabled={isEditing}
         required
       />
+
       <Combobox
         options={developmentOptions}
         value={formData.developmentId || ""}
@@ -101,6 +118,18 @@ export function BusinessForm({
         disabled={isEditing}
         required
       />
+
+      {showBrokerField && (
+        <Combobox
+          options={brokerOptions}
+          value={formData.brokerId || user?.id || ""}
+          onChange={(value) => setFormData({ ...formData, brokerId: value })}
+          placeholder="Selecione um corretor"
+          label="Corretor"
+          disabled={isEditing || user?.role === "broker"}
+          required
+        />
+      )}
 
       <div>
         <label className="block text-sm font-medium text-gray-700">
@@ -136,7 +165,7 @@ export function BusinessForm({
               ...formData,
               status: e.target.value as Business["status"],
               scheduledAt: null,
-              recallAt:null,
+              recallAt: null,
             })
           }
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"

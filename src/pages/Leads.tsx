@@ -153,11 +153,17 @@ export function Leads() {
       }
     }
     const searchLower = removeAcento(searchTerm.toLowerCase());
-    return filtered.filter(
+    filtered.filter(
       (lead) =>
         removeAcento(lead.name ? lead.name.toLowerCase() : lead.name).includes(
           searchLower
         ) || lead.phone.includes(searchTerm)
+    );
+
+    //Remove duplicatas de leads
+
+    return filtered = filtered.filter(
+      (value, index, self) => index === self.findIndex((t) => t.id === value.id)
     );
   }, [
     leads,

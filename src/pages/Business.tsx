@@ -65,6 +65,7 @@ export function Businesses() {
     source: "organic",
     status: "new",
     notes: "",
+    brokerId: user?.id || "",
   });
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [hasValidationErrors, setHasValidationErrors] = useState(false);
@@ -77,6 +78,7 @@ export function Businesses() {
     fetchUsers();
   }, [fetchBusinesses, fetchLeads, fetchDevelopments, fetchTeams, fetchUsers]);
 
+  // Filtrar corretores da equipe do líder
   const teamBrokers = useMemo(() => {
     if (user?.role !== "teamLeader") return [];
     const leaderTeam = teams.find((t) => t.leaderId === user.id);
@@ -87,6 +89,7 @@ export function Businesses() {
     );
   }, [users, user, teams]);
 
+  // Filtrar corretores disponíveis para o admin
   const availableBrokers = useMemo(() => {
     if (user?.role !== "admin") return [];
     if (selectedTeam) {
@@ -243,7 +246,11 @@ export function Businesses() {
 
         await updateBusiness(editingBusiness.id, formData);
       } else {
-        await addBusiness(formData as Required<typeof formData>);
+        const businessData = {
+          ...formData,
+          brokerId: user?.role === "broker" ? user.id : formData.brokerId,
+        };
+        await addBusiness(businessData as Required<typeof businessData>);
       }
       handleCloseModal();
       fetchBusinesses();
@@ -263,6 +270,7 @@ export function Businesses() {
       source: "organic",
       status: "new",
       notes: "",
+      brokerId: user?.id || "",
     });
     setOperationError(null);
   };
@@ -411,6 +419,8 @@ export function Businesses() {
     }
   };
 
+  const showBrokerField = user?.role === "admin" || user?.role === "teamLeader";
+
   if (businessLoading || leadsLoading || developmentsLoading || usersLoading) {
     return <LoadingSpinner />;
   }
@@ -485,6 +495,8 @@ export function Businesses() {
             leads={leads}
             developments={developments}
             isEditing={!!editingBusiness}
+            showBrokerField={showBrokerField}
+            brokers={user?.role === "admin" ? availableBrokers : teamBrokers}
           />
 
           {operationError && <ErrorMessage message={operationError} />}
