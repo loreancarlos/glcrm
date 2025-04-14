@@ -105,6 +105,7 @@ export interface Business {
 export interface CallModeSession {
   id: string;
   userId: string;
+  developmentId: string;
   startTime: Date;
   endTime: Date;
   businessViewed: string[];

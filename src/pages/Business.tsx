@@ -230,6 +230,7 @@ export function Businesses() {
           }
           await createSession({
             startTime: new Date(),
+            developmentId: formData.developmentId || "",
             endTime: new Date(),
             businessViewed: [],
             answeredCalls: 0,
@@ -314,6 +315,7 @@ export function Businesses() {
     try {
       const session = await createSession({
         startTime: new Date(),
+        developmentId: selectedDevelopment,
         endTime: new Date(),
         businessViewed: [],
         answeredCalls: 0,
