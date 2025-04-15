@@ -4,6 +4,7 @@ import {
   formatDateTime,
   formatPhoneDisplay,
 } from "../../utils/format";
+import { FaWhatsapp } from "react-icons/fa";
 
 export const getBusinessColumns = () => [
   {
@@ -16,13 +17,20 @@ export const getBusinessColumns = () => [
     accessor: "leadPhone" as const,
     //render: (value: string) => formatPhoneDisplay(value),
     render: (value: string) => (
-      <a
-        href={`tel:+${value}`}
-        className="text-indigo-600 hover:underline font-medium"
-        onClick={(e) => e.stopPropagation()} // Impede de acionar onRowClick
-      >
-        {`${formatPhoneDisplay(value)}`}
-      </a>
+      <div className="flex gap-1 justify-between">
+        <a
+          href={`tel:015 ${formatPhoneDisplay(value)}`}
+          className="text-indigo-600 hover:underline font-medium"
+          onClick={(e) => e.stopPropagation()} // Impede de acionar onRowClick
+        >
+          {`${formatPhoneDisplay(value)}`}
+        </a>
+        <a
+          href={`https://api.whatsapp.com/send?phone=${value}`}
+          className="text-green-600 hover:underline font-medium">
+          <FaWhatsapp size={`1.5em`}/>
+        </a>
+      </div>
     ),
     sortable: true,
   },
