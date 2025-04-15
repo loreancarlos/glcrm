@@ -35,10 +35,16 @@ export const getBusinessColumns = () => [
     ),
     sortable: true,
   },
-  {
+  /* {
     header: "Empreendimento",
     accessor: "developmentName" as const,
     sortable: true,
+  }, */
+  {
+    header: "Último Contato",
+    accessor: "lastCallAt" as const,
+    sortable: true,
+    render: (value: string) => (value ? formatDateTime(value) : "-"),
   },
   /* {
     header: "Origem",
