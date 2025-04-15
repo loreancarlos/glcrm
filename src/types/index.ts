@@ -94,9 +94,9 @@ export interface Business {
     | "tent"
     | "importedList";
   status: "new" | "recall" | "whatsapp" | "scheduled" | "lost";
-  scheduledAt?: string;
-  recallAt?: string;
-  notes?: string;
+  scheduledAt?: string | null;
+  recallAt?: string | null;
+  notes?: string | null;
   lastCallAt?: Date;
   createdAt: string;
   updatedAt: string;

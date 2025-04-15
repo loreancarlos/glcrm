@@ -34,7 +34,7 @@ interface CallModeModalProps {
       scheduledAt?: string | null;
       recallAt?: string | null;
       notes?: string | null;
-      lastCallAt?: Date | null;
+      lastCallAt?: Date;
     }
   ) => Promise<void>;
   onLeadUpdate: (leadId: string, lastCallAt: Date) => Promise<void>;

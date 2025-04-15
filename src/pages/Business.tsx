@@ -370,9 +370,9 @@ export function Businesses() {
     businessId: string,
     updates: {
       status?: Business["status"];
-      scheduledAt?: string;
-      recallAt?: string;
-      notes?: string;
+      scheduledAt?: string | null;
+      recallAt?: string | null;
+      notes?: string | null;
       lastCallAt?: Date;
     }
   ) => {
@@ -519,19 +519,21 @@ export function Businesses() {
         </form>
       </Modal>
 
-      <CallModeModal
-        isOpen={isCallModeOpen}
-        onClose={() => setIsCallModeOpen(false)}
-        businesses={filteredBusinesses}
-        leads={leads}
-        developments={developments}
-        onSessionEnd={handleCallModeEnd}
-        onStatusUpdate={handleStatusUpdate}
-        sessionId={currentSessionId || ""}
-        selectedStatus={selectedStatus || ""}
-        onSessionUpdate={handleSessionUpdate}
-        onLeadUpdate={handleLeadUpdate}
-      />
+      {isCallModeOpen && (
+        <CallModeModal
+          isOpen={true}
+          onClose={() => setIsCallModeOpen(false)}
+          businesses={filteredBusinesses}
+          leads={leads}
+          developments={developments}
+          onSessionEnd={handleCallModeEnd}
+          onStatusUpdate={handleStatusUpdate}
+          sessionId={currentSessionId || ""}
+          selectedStatus={selectedStatus || ""}
+          onSessionUpdate={handleSessionUpdate}
+          onLeadUpdate={handleLeadUpdate}
+        />
+      )}
 
       <ConfirmDialog
         isOpen={isConfirmOpen}
