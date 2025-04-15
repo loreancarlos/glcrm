@@ -17,7 +17,7 @@ export const getBusinessColumns = () => [
     accessor: "leadPhone" as const,
     //render: (value: string) => formatPhoneDisplay(value),
     render: (value: string) => (
-      <div className="flex gap-1 justify-between">
+      <div className="flex gap-1">
         <a
           href={`tel:015 ${formatPhoneDisplay(value)}`}
           className="text-indigo-600 hover:underline font-medium"
