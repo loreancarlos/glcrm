@@ -71,11 +71,11 @@ export function Businesses() {
   const [hasValidationErrors, setHasValidationErrors] = useState(false);
 
   useEffect(() => {
-    fetchLeads();
-    fetchBusinesses();
-    fetchDevelopments();
-    fetchTeams();
     fetchUsers();
+    fetchDevelopments();
+    fetchLeads();
+    fetchTeams();
+    fetchBusinesses();
   }, [fetchBusinesses, fetchLeads, fetchDevelopments, fetchTeams, fetchUsers]);
 
   // Filtrar corretores da equipe do líder
