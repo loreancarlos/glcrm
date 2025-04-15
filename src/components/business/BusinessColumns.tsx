@@ -27,8 +27,9 @@ export const getBusinessColumns = () => [
         </a>
         <a
           href={`https://api.whatsapp.com/send?phone=${value}`}
-          className="text-green-600 hover:underline font-medium">
-          <FaWhatsapp size={`1.5em`}/>
+          className="text-green-600 hover:underline font-medium"
+          target="_blank">
+          <FaWhatsapp size={`1.5em`} />
         </a>
       </div>
     ),
