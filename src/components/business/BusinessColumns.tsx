@@ -17,11 +17,11 @@ export const getBusinessColumns = () => [
     //render: (value: string) => formatPhoneDisplay(value),
     render: (value: string) => (
       <a
-        href={`tel:015 ${formatPhoneDisplay(value)}`}
+        href={`tel:${formatPhoneDisplay(value)}`}
         className="text-indigo-600 hover:underline font-medium"
         onClick={(e) => e.stopPropagation()} // Impede de acionar onRowClick
       >
-        {`015 ${formatPhoneDisplay(value)}`}
+        {`${formatPhoneDisplay(value)}`}
       </a>
     ),
     sortable: true,
