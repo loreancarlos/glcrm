@@ -17,7 +17,7 @@ export const getBusinessColumns = () => [
     //render: (value: string) => formatPhoneDisplay(value),
     render: (value: string) => (
       <a
-        href={`tel:${formatPhoneDisplay(value)}`}
+        href={`tel:+${value}`}
         className="text-indigo-600 hover:underline font-medium"
         onClick={(e) => e.stopPropagation()} // Impede de acionar onRowClick
       >
