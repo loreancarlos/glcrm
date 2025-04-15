@@ -77,7 +77,9 @@ export function CallModeModal({
   const [initialized, setInitialized] = useState(false);
   const [notes, setNotes] = useState("");
   const [editingName, setEditingName] = useState(false);
+  const [editingPhone, setEditingPhone] = useState(false);
   const [tempName, setTempName] = useState("");
+  const [tempPhone, setTempPhone] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   // Estados do status da chamada
@@ -398,9 +400,52 @@ export function CallModeModal({
     }
   };
 
-  const handleCancelEdit = () => {
+  const handleCancelEditName = () => {
     setEditingName(false);
     setTempName("");
+    setError(null);
+  };
+
+  const handleEditPhone = () => {
+    const currentLead = localLeads.find(
+      (lead) => lead.id === businesses[currentIndex].leadId
+    );
+    if (currentLead) {
+      setTempPhone(currentLead.phone);
+      setEditingPhone(true);
+    }
+  };
+
+  const handleSavePhone = async () => {
+    try {
+      const currentLead = localLeads.find(
+        (lead) => lead.id === businesses[currentIndex].leadId
+      );
+      if (currentLead && tempPhone.trim()) {
+        await api.updateLead(currentLead.id, {
+          ...currentLead,
+          phone: tempPhone.trim(),
+        });
+        setEditingPhone(false);
+        setError(null);
+
+        // Update local leads array
+        setLocalLeads((prevLeads) =>
+          prevLeads.map((lead) =>
+            lead.id === currentLead.id
+              ? { ...lead, phone: tempPhone.trim() }
+              : lead
+          )
+        );
+      }
+    } catch (error) {
+      setError("Erro ao atualizar o nome do lead");
+    }
+  };
+
+  const handleCancelEditPhone = () => {
+    setEditingPhone(false);
+    setTempPhone("");
     setError(null);
   };
 
@@ -479,7 +524,7 @@ export function CallModeModal({
                       <Check className="h-5 w-5" />
                     </button>
                     <button
-                      onClick={handleCancelEdit}
+                      onClick={handleCancelEditName}
                       className="text-red-600 hover:text-red-900">
                       <XIcon className="h-5 w-5" />
                     </button>
@@ -501,11 +546,46 @@ export function CallModeModal({
             </div>
             <div>
               <h3 className="text-sm font-medium text-gray-500">Telefone</h3>
-              <p className="mt-1 text-lg font-semibold text-gray-900">
-                <a href={`tel:015 ${formatPhoneDisplay(currentLead.phone)}`}>
-                  {`015 ${formatPhoneDisplay(currentLead.phone)}`}
-                </a>
-              </p>
+
+              <div className="flex items-center mt-1">
+                {editingPhone ? (
+                  <div className="flex items-center space-x-2 w-full">
+                    <input
+                      type="text"
+                      value={tempPhone}
+                      onChange={(e) => setTempPhone(e.target.value)}
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    />
+                    <button
+                      onClick={handleSavePhone}
+                      className="text-green-600 hover:text-green-900">
+                      <Check className="h-5 w-5" />
+                    </button>
+                    <button
+                      onClick={handleCancelEditPhone}
+                      className="text-red-600 hover:text-red-900">
+                      <XIcon className="h-5 w-5" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <p className="mt-1 text-lg font-semibold text-gray-900">
+                      <a
+                        href={`tel:015 ${formatPhoneDisplay(
+                          currentLead.phone
+                        )}`}>
+                        {`015 ${formatPhoneDisplay(currentLead.phone)}`}
+                      </a>
+                    </p>
+                    <button
+                      onClick={handleEditPhone}
+                      className="text-gray-400 hover:text-gray-600">
+                      <Edit2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                )}
+              </div>
+              {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
             </div>
             <div>
               <h3 className="text-sm font-medium text-gray-500">
