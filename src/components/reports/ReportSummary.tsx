@@ -11,7 +11,7 @@ export function ReportSummary({ data }: ReportSummaryProps) {
       <h2 className="text-lg font-semibold mb-4">Resumo das Ligações</h2>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-lg shadow">
-          <p className="text-sm text-gray-500">Total de Ligações</p>
+          <p className="text-sm text-gray-500">Tentativas de Contato</p>
           <p className="text-xl font-bold">{data.totalBusinessViewed}</p>
         </div>
 

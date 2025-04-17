@@ -227,12 +227,13 @@ export function Businesses() {
             countTalked = 1;
           } else if (formData.status === "lost") {
             countLost = 1;
+            countTalked = 1;
           }
           await createSession({
             startTime: new Date(),
             developmentId: formData.developmentId || "",
             endTime: new Date(),
-            businessViewed: [],
+            businessViewed: [editingBusiness.id],
             answeredCalls: 0,
             talkedCalls: countTalked,
             scheduledCalls: countScheduled,
