@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Login } from "./pages/Login";
@@ -12,11 +12,21 @@ import { Businesses } from "./pages/Business";
 import { Reports } from "./pages/Reports";
 import { Profile } from "./pages/Profile";
 import { useAuthStore } from "./store/authStore";
+import { useThemeStore } from "./store/themeStore";
 import { PrivateRoute } from "./components/routing/PrivateRoute";
 import { AuthRoute } from "./components/routing/AuthRoute";
 
 export function App() {
   const { user } = useAuthStore();
+  const { isDarkMode } = useThemeStore();
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDarkMode]);
 
   return (
     <BrowserRouter>

@@ -278,7 +278,7 @@ export function Leads() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">
+        <h1 className="text-2xl font-bold dark:text-white">
           Leads {`(${filteredLeads.length})`}
         </h1>
         <div className="flex space-x-2">
@@ -378,7 +378,7 @@ export function Leads() {
             <button
               type="button"
               onClick={handleCloseModal}
-              className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+              className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-dark-hover">
               Cancelar
             </button>
             <button

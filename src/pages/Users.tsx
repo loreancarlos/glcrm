@@ -430,7 +430,7 @@ export function Users() {
       {/* Seção de Equipes */}
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Equipes</h1>
+          <h1 className="text-2xl font-bold dark:text-white">Equipes</h1>
           <button
             onClick={() => setIsTeamModalOpen(true)}
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
@@ -467,7 +467,7 @@ export function Users() {
       {/* Seção de Usuários */}
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Usuários</h1>
+          <h1 className="text-2xl font-bold dark:text-white">Usuários</h1>
           <button
             onClick={() => setIsUserModalOpen(true)}
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
@@ -517,7 +517,7 @@ export function Users() {
             <button
               type="button"
               onClick={handleCloseUserModal}
-              className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+              className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-dark-hover">
               Cancelar
             </button>
             <button
@@ -546,7 +546,7 @@ export function Users() {
             <button
               type="button"
               onClick={handleCloseTeamModal}
-              className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+              className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-dark-hover">
               Cancelar
             </button>
             <button
@@ -572,18 +572,18 @@ export function Users() {
             <>
               <div className="grid grid-cols-1 gap-4">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-500">
+                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300">
                     Nome da Equipe
                   </h3>
-                  <p className="mt-1 text-sm text-gray-900">
+                  <p className="mt-1 text-sm text-gray-900 dark:text-white">
                     {selectedTeam.name}
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-gray-500">
+                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300">
                     Líder da Equipe
                   </h3>
-                  <p className="mt-1 text-sm text-gray-900">
+                  <p className="mt-1 text-sm text-gray-900 dark:text-white">
                     {users.find((u) => u.id === selectedTeam.leaderId)?.name ||
                       "Líder não encontrado"}
                   </p>
@@ -592,13 +592,13 @@ export function Users() {
 
               <div className="mt-6">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-medium text-gray-900">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                     Adicionar Membro
                   </h3>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <select
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     onChange={(e) =>
                       handleAddTeamMember(selectedTeam.id, e.target.value)
                     }
@@ -624,7 +624,7 @@ export function Users() {
             <button
               type="button"
               onClick={() => setIsTeamDetailsModalOpen(false)}
-              className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+              className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-dark-hover">
               Fechar
             </button>
           </div>

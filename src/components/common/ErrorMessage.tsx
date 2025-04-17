@@ -8,19 +8,19 @@ interface ErrorMessageProps {
 
 export function ErrorMessage({ message, onDismiss }: ErrorMessageProps) {
   return (
-    <div className="rounded-md bg-red-50 p-4">
+    <div className="rounded-md bg-red-50 dark:bg-red-900/20 p-4">
       <div className="flex">
         <div className="flex-shrink-0">
           <AlertTriangle className="h-5 w-5 text-red-400" />
         </div>
         <div className="ml-3">
-          <h3 className="text-sm font-medium text-red-800">{message}</h3>
+          <h3 className="text-sm font-medium text-red-800 dark:text-red-200">{message}</h3>
         </div>
         {onDismiss && (
           <div className="ml-auto pl-3">
             <button
               onClick={onDismiss}
-              className="inline-flex rounded-md bg-red-50 p-1.5 text-red-500 hover:bg-red-100"
+              className="inline-flex rounded-md bg-red-50 dark:bg-red-900/20 p-1.5 text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-800/30"
             >
               <span className="sr-only">Dismiss</span>
               <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

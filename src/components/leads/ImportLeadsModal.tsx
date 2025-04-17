@@ -192,14 +192,14 @@ export function ImportLeadsModal({
       onClose={handleClose}
       title="Importar Leads do Excel">
       <div className="space-y-6">
-        <div className="bg-blue-50 p-4 rounded-lg">
+        <div className="bg-blue-50 p-4 rounded-lg dark:bg-dark-hover">
           <div className="flex">
             <div className="flex-shrink-0">
               <AlertCircle className="h-5 w-5 text-blue-400" />
             </div>
             <div className="ml-3">
-              <h3 className="text-sm font-medium text-blue-800">Instruções</h3>
-              <div className="mt-2 text-sm text-blue-700">
+              <h3 className="text-sm font-medium text-blue-800 dark:text-blue-400">Instruções</h3>
+              <div className="mt-2 text-sm text-blue-700 dark:text-blue-400">
                 <p className="mb-2">
                   O arquivo Excel deve conter as seguintes colunas:
                 </p>
@@ -229,7 +229,7 @@ export function ImportLeadsModal({
         )}
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Empreendimentos
           </label>
           <div className="relative mt-1">
@@ -243,7 +243,7 @@ export function ImportLeadsModal({
               onFocus={() => setIsSearchFocused(true)}
               onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
               placeholder="Pesquisar empreendimentos..."
-              className="block w-full rounded-md border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="block w-full rounded-md border-gray-300 pl-10 dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             />
             {isSearchFocused && filteredDevelopments.length > 0 && (
               <div className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
@@ -311,11 +311,11 @@ export function ImportLeadsModal({
             ) : (
               <div className="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                 <div className="space-y-1 text-center">
-                  <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                  <div className="flex text-sm text-gray-600">
+                  <Upload className="mx-auto h-12 w-12 text-gray-400 dark:text-white" />
+                  <div className="flex text-sm text-gray-600 dark:text-white">
                     <label
                       htmlFor="file-upload"
-                      className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                      className="relative cursor-pointer bg-white rounded-md font-medium dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 ">
                       <span>Selecione um arquivo</span>
                       <input
                         id="file-upload"
@@ -329,7 +329,7 @@ export function ImportLeadsModal({
                     </label>
                     <p className="pl-1">ou arraste e solte</p>
                   </div>
-                  <p className="text-xs text-gray-500">XLSX, XLS até 10MB</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-300">XLSX, XLS até 10MB</p>
                 </div>
               </div>
             )}
@@ -359,7 +359,7 @@ export function ImportLeadsModal({
             type="button"
             onClick={handleClose}
             disabled={isLoading}
-            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-dark-hover">
             {haveBusiness ? "Fechar" : "Cancelar"}
           </button>
           <button

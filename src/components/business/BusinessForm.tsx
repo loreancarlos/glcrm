@@ -126,7 +126,6 @@ export function BusinessForm({
           onChange={(value) => setFormData({ ...formData, brokerId: value })}
           placeholder="Selecione um corretor"
           label="Corretor"
-          disabled={isEditing || user?.role === "broker"}
           required
         />
       )}

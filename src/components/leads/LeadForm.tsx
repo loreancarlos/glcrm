@@ -89,18 +89,18 @@ export function LeadForm({
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700">Nome</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Nome</label>
         <input
           type="text"
           value={formData.name || ""}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Telefone
         </label>
         <div className="mt-1 flex gap-2">
@@ -111,7 +111,7 @@ export function LeadForm({
               setCountryCode(newCountryCode);
               setFormData((prev) => ({ ...prev, phone: "" }));
             }}
-            className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+            className="rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
             {countryOptions.map((option) => (
               <option key={option.code} value={option.code}>
                 {option.name}
@@ -131,7 +131,7 @@ export function LeadForm({
                   phone: cleanValue ? `${countryCode}${cleanValue}` : "",
                 }));
               }}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               required
             />
           </div>
@@ -152,7 +152,7 @@ export function LeadForm({
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Origem
             </label>
             <select
@@ -160,7 +160,7 @@ export function LeadForm({
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, source: e.target.value }))
               }
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               required>
               <option value="">Selecione a origem</option>
               {sourceOptions.map((option) => (
@@ -174,7 +174,7 @@ export function LeadForm({
       )}
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Empreendimentos de Interesse
         </label>
         <div className="relative mt-1">
@@ -188,7 +188,7 @@ export function LeadForm({
             onFocus={() => setIsSearchFocused(true)}
             onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
             placeholder="Pesquisar empreendimentos..."
-            className="block w-full rounded-md border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="block w-full rounded-md border-gray-300 pl-10 dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
           {isSearchFocused && filteredDevelopments.length > 0 && (
             <div className="absolute z-10 mt-1 max-h-20 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">

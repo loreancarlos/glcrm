@@ -79,7 +79,7 @@ export function Combobox({
 
   return (
     <div className="relative" ref={wrapperRef}>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
+      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
         {label}
       </label>
       <div className="relative">
@@ -92,11 +92,11 @@ export function Combobox({
           value={searchTerm}
           onChange={handleInputChange}
           onFocus={() => setIsOpen(true)}
-          className={`mt-1 block w-full pl-10 pr-3 py-2 border rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 sm:text-sm ${
+          className={`mt-1 block w-full pl-10 pr-3 py-2 border rounded-md leading-5 bg-white dark:bg-dark-secondary text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 ${
             error
               ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-              : "border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-          }`}
+              : "border-gray-300 dark:border-gray-600 focus:border-indigo-500 focus:ring-indigo-500"
+          } sm:text-sm`}
           placeholder={placeholder}
           required={required}
           disabled={disabled}
@@ -104,14 +104,14 @@ export function Combobox({
       </div>
 
       {isOpen && filteredOptions.length > 0 && (
-        <div className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+        <div className="absolute z-10 mt-1 w-full bg-white dark:bg-dark-secondary rounded-md shadow-lg max-h-60 overflow-auto ring-1 ring-black ring-opacity-5">
           {filteredOptions.map((option) => (
             <div
               key={option.id}
-              className={`cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-indigo-50 ${
+              className={`cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-gray-100 dark:hover:bg-dark-hover ${
                 value === option.id
-                  ? "bg-indigo-50 text-indigo-600"
-                  : "text-gray-900"
+                  ? "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400"
+                  : "text-gray-900 dark:text-white"
               }`}
               onClick={() => handleOptionClick(option.id)}>
               {option.label}

@@ -268,7 +268,7 @@ export function Commissions() {
         </>
       )}
       <div className="flex justify-between items-center">
-        <h1 className="mt-8 text-2xl font-bold">
+        <h1 className="mt-8 text-2xl font-bold dark:text-white">
           {user?.role === "admin"
             ? "Comissões"
             : user?.role === "teamLeader"

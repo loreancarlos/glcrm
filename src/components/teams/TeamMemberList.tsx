@@ -17,20 +17,20 @@ export function TeamMemberList({
 
   return (
     <div className="mt-4">
-      <h3 className="text-lg font-medium text-gray-900 mb-4">
+      <h3 className="text-lg font-medium text-gray-900 mb-4 dark:text-white">
         Membros da Equipe
       </h3>
       <div className="space-y-2">
         {members.length === 0 ? (
-          <p className="text-gray-500">Nenhum membro na equipe</p>
+          <p className="text-gray-500 dark:text-gray-300">Nenhum membro na equipe</p>
         ) : (
           members.map((member) => (
             <div
               key={member.id}
-              className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm">
+              className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm dark:bg-dark-hover">
               <div>
-                <p className="font-medium text-gray-900">{member.name}</p>
-                <p className="text-sm text-gray-500">{member.email}</p>
+                <p className="font-medium text-gray-900 dark:text-gray-300">{member.name}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{member.email}</p>
               </div>
               <button
                 onClick={() => onRemoveMember(member.id)}

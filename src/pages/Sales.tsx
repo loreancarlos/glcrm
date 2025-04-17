@@ -219,7 +219,7 @@ export function Sales() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Vendas</h1>
+        <h1 className="text-2xl font-bold dark:text-white">Vendas</h1>
         <button
           onClick={() => setIsModalOpen(true)}
           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
@@ -287,7 +287,7 @@ export function Sales() {
             <button
               type="button"
               onClick={handleCloseModal}
-              className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+              className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-dark-hover">
               Cancelar
             </button>
             <button

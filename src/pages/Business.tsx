@@ -245,7 +245,6 @@ export function Businesses() {
             notReceivingCalls: 0,
           });
         }
-
         await updateBusiness(editingBusiness.id, formData);
       } else {
         const businessData = {
@@ -431,7 +430,7 @@ export function Businesses() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">
+        <h1 className="text-2xl font-bold dark:text-white">
           Negócios {`(${filteredBusinesses.length})`}
         </h1>
         <div className="flex space-x-2">

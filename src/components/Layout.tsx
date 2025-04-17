@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
+import { useThemeStore } from "../store/themeStore";
 import {
   Users,
   FileText,
@@ -14,10 +15,13 @@ import {
   User,
   Briefcase,
   BarChart,
+  Moon,
+  Sun,
 } from "lucide-react";
 
 export function Layout() {
   const { user, logout } = useAuthStore();
+  const { isDarkMode, toggleDarkMode } = useThemeStore();
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -29,8 +33,8 @@ export function Layout() {
 
   const isActive = (path: string) =>
     location.pathname === path
-      ? "border-indigo-500 text-gray-900"
-      : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700";
+      ? "border-indigo-500 text-gray-900 dark:text-white"
+      : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white";
 
   const renderMobileNavLinks = () => (
     <>
@@ -40,8 +44,8 @@ export function Layout() {
             to="/clients"
             className={`block px-3 py-2 text-base font-medium ${
               location.pathname === "/clients"
-                ? "text-indigo-600"
-                : "text-gray-500"
+                ? "text-indigo-600 dark:text-indigo-400"
+                : "text-gray-500 dark:text-gray-400"
             }`}
             onClick={() => setIsMobileMenuOpen(false)}>
             <div className="flex items-center">
@@ -53,8 +57,8 @@ export function Layout() {
             to="/developments"
             className={`block px-3 py-2 text-base font-medium ${
               location.pathname === "/developments"
-                ? "text-indigo-600"
-                : "text-gray-500"
+                ? "text-indigo-600 dark:text-indigo-400"
+                : "text-gray-500 dark:text-gray-400"
             }`}
             onClick={() => setIsMobileMenuOpen(false)}>
             <div className="flex items-center">
@@ -66,8 +70,8 @@ export function Layout() {
             to="/sales"
             className={`block px-3 py-2 text-base font-medium ${
               location.pathname === "/sales"
-                ? "text-indigo-600"
-                : "text-gray-500"
+                ? "text-indigo-600 dark:text-indigo-400"
+                : "text-gray-500 dark:text-gray-400"
             }`}
             onClick={() => setIsMobileMenuOpen(false)}>
             <div className="flex items-center">
@@ -79,8 +83,8 @@ export function Layout() {
             to="/users"
             className={`block px-3 py-2 text-base font-medium ${
               location.pathname === "/users"
-                ? "text-indigo-600"
-                : "text-gray-500"
+                ? "text-indigo-600 dark:text-indigo-400"
+                : "text-gray-500 dark:text-gray-400"
             }`}
             onClick={() => setIsMobileMenuOpen(false)}>
             <div className="flex items-center">
@@ -99,8 +103,8 @@ export function Layout() {
             to="/commissions"
             className={`block px-3 py-2 text-base font-medium ${
               location.pathname === "/commissions"
-                ? "text-indigo-600"
-                : "text-gray-500"
+                ? "text-indigo-600 dark:text-indigo-400"
+                : "text-gray-500 dark:text-gray-400"
             }`}
             onClick={() => setIsMobileMenuOpen(false)}>
             <div className="flex items-center">
@@ -112,8 +116,8 @@ export function Layout() {
             to="/leads"
             className={`block px-3 py-2 text-base font-medium ${
               location.pathname === "/leads"
-                ? "text-indigo-600"
-                : "text-gray-500"
+                ? "text-indigo-600 dark:text-indigo-400"
+                : "text-gray-500 dark:text-gray-400"
             }`}
             onClick={() => setIsMobileMenuOpen(false)}>
             <div className="flex items-center">
@@ -125,8 +129,8 @@ export function Layout() {
             to="/business"
             className={`block px-3 py-2 text-base font-medium ${
               location.pathname === "/business"
-                ? "text-indigo-600"
-                : "text-gray-500"
+                ? "text-indigo-600 dark:text-indigo-400"
+                : "text-gray-500 dark:text-gray-400"
             }`}
             onClick={() => setIsMobileMenuOpen(false)}>
             <div className="flex items-center">
@@ -138,8 +142,8 @@ export function Layout() {
             to="/reports"
             className={`block px-3 py-2 text-base font-medium ${
               location.pathname === "/reports"
-                ? "text-indigo-600"
-                : "text-gray-500"
+                ? "text-indigo-600 dark:text-indigo-400"
+                : "text-gray-500 dark:text-gray-400"
             }`}
             onClick={() => setIsMobileMenuOpen(false)}>
             <div className="flex items-center">
@@ -233,13 +237,13 @@ export function Layout() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-md">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-primary">
+      <nav className="bg-white dark:bg-dark-secondary shadow-md">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <span className="ml-2 text-xl font-bold text-gray-900 hidden sm:block">
+                <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white hidden sm:block">
                   CRM
                 </span>
               </div>
@@ -249,9 +253,18 @@ export function Layout() {
             </div>
 
             <div className="flex items-center space-x-4">
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white">
+                {isDarkMode ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
+              </button>
               <Link
                 to="/profile"
-                className="hidden sm:inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                className="hidden sm:inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <User className="h-4 w-4 mr-1" />
                 Perfil
               </Link>
@@ -264,7 +277,7 @@ export function Layout() {
               </button>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="sm:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                className="sm:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 dark:hover:bg-dark-hover">
                 {isMobileMenuOpen ? (
                   <X className="block h-6 w-6" />
                 ) : (
@@ -277,17 +290,17 @@ export function Layout() {
 
         {/* Mobile menu */}
         {isMobileMenuOpen && (
-          <div className="sm:hidden border-t border-gray-200">
+          <div className="sm:hidden border-t border-gray-200 dark:border-gray-700">
             <div className="pt-2 pb-3 space-y-1">
               {renderMobileNavLinks()}
               <Link
                 to="/profile"
-                className="w-full flex items-center px-3 py-2 text-base font-medium text-gray-500 hover:text-gray-700"
+                className="w-full flex items-center px-3 py-2 text-base font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white"
                 onClick={() => setIsMobileMenuOpen(false)}>
                 <User className="h-5 w-5 mr-2" />
                 Perfil
               </Link>
-              <div className="px-3 py-2 text-base font-medium text-gray-700 flex items-center">
+              <div className="px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 flex items-center">
                 <UserCog className="h-5 w-5 mr-2" />
                 {user?.name}
               </div>

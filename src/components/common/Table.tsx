@@ -40,7 +40,7 @@ export function Table<T extends { id: string }>({
 
   useEffect(() => {
     setTableData(data);
-    setCurrentPage(1); // Reset to first page when data changes
+    setCurrentPage(1);
   }, [data]);
 
   const handleSort = (key: keyof T) => {
@@ -82,7 +82,7 @@ export function Table<T extends { id: string }>({
     });
 
     setTableData(sortedData);
-    setCurrentPage(1); // Reset to first page when sorting
+    setCurrentPage(1);
   };
 
   const getSortIcon = (key: keyof T) => {
@@ -110,8 +110,8 @@ export function Table<T extends { id: string }>({
     <div className="space-y-4">
       <div className="overflow-x-auto -mx-4 sm:mx-0">
         <div className="inline-block min-w-full align-middle">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead className="bg-gray-50 dark:bg-dark-secondary">
               <tr>
                 {columns.map((column) => (
                   <th
@@ -119,9 +119,9 @@ export function Table<T extends { id: string }>({
                     onClick={() =>
                       column.sortable !== false && handleSort(column.accessor)
                     }
-                    className={`px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap ${
+                    className={`px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap ${
                       column.sortable !== false
-                        ? "cursor-pointer hover:bg-gray-100"
+                        ? "cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-hover"
                         : ""
                     }`}>
                     <div className="flex items-center space-x-1">
@@ -131,24 +131,26 @@ export function Table<T extends { id: string }>({
                   </th>
                 ))}
                 {(onEdit || onDelete || renderActions) && (
-                  <th className="px-3 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-20">
+                  <th className="px-3 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-20">
                     Ações
                   </th>
                 )}
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white dark:bg-dark-secondary divide-y divide-gray-200 dark:divide-gray-700">
               {getCurrentPageData().map((item) => (
                 <tr
                   key={item.id}
                   onClick={() => onRowClick?.(item)}
-                  className={
-                    onRowClick ? "cursor-pointer hover:bg-gray-50" : ""
-                  }>
+                  className={`${
+                    onRowClick
+                      ? "cursor-pointer hover:bg-gray-50 dark:hover:bg-dark-hover"
+                      : ""
+                  }`}>
                   {columns.map((column) => (
                     <td
                       key={String(column.accessor)}
-                      className="px-3 py-4 text-sm text-gray-500 max-w-[200px] truncate">
+                      className="px-3 py-4 text-sm text-gray-500 dark:text-gray-300 max-w-[200px] truncate">
                       {column.render
                         ? column.render(item[column.accessor])
                         : String(item[column.accessor])}
@@ -167,7 +169,7 @@ export function Table<T extends { id: string }>({
                                   e.stopPropagation();
                                   onEdit(item);
                                 }}
-                                className="text-indigo-600 hover:text-indigo-900 p-1">
+                                className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 p-1">
                                 <Edit2 className="h-4 w-4" />
                               </button>
                             )}
@@ -177,7 +179,7 @@ export function Table<T extends { id: string }>({
                                   e.stopPropagation();
                                   onDelete(item);
                                 }}
-                                className="text-red-600 hover:text-red-900 p-1">
+                                className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 p-1">
                                 <Trash2 className="h-4 w-4" />
                               </button>
                             )}
@@ -196,8 +198,10 @@ export function Table<T extends { id: string }>({
       {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between px-4">
-          <div className="flex items-center text-sm text-gray-500">
-            Mostrando {((currentPage - 1) * ITEMS_PER_PAGE) + 1} a {Math.min(currentPage * ITEMS_PER_PAGE, tableData.length)} de {tableData.length} resultados
+          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+            Mostrando {(currentPage - 1) * ITEMS_PER_PAGE + 1} a{" "}
+            {Math.min(currentPage * ITEMS_PER_PAGE, tableData.length)} de{" "}
+            {tableData.length} resultados
           </div>
           <div className="flex items-center space-x-2">
             <button
@@ -205,30 +209,36 @@ export function Table<T extends { id: string }>({
               disabled={currentPage === 1}
               className={`p-2 rounded ${
                 currentPage === 1
-                  ? "text-gray-300 cursor-not-allowed"
-                  : "text-gray-500 hover:bg-gray-100"
+                  ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-hover"
               }`}>
               <ChevronLeft className="h-5 w-5" />
             </button>
             {Array.from({ length: totalPages }, (_, i) => i + 1)
-              .filter(page => {
-                const distance = Math.abs(page - currentPage);
-                return distance === 0 || distance === 1 || page === 1 || page === totalPages;
-              })
+              .filter(
+                (page) =>
+                  page === 1 ||
+                  page === totalPages ||
+                  Math.abs(page - currentPage) <= 1
+              )
               .map((page, index, array) => {
                 if (index > 0 && array[index - 1] !== page - 1) {
                   return [
-                    <span key={`ellipsis-${page}`} className="px-3 py-2">...</span>,
+                    <span
+                      key={`ellipsis-${page}`}
+                      className="px-3 py-2 text-gray-500 dark:text-gray-400">
+                      ...
+                    </span>,
                     <button
                       key={page}
                       onClick={() => handlePageChange(page)}
                       className={`px-3 py-2 rounded ${
                         currentPage === page
                           ? "bg-indigo-600 text-white"
-                          : "text-gray-500 hover:bg-gray-100"
+                          : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-hover"
                       }`}>
                       {page}
-                    </button>
+                    </button>,
                   ];
                 }
                 return (
@@ -238,7 +248,7 @@ export function Table<T extends { id: string }>({
                     className={`px-3 py-2 rounded ${
                       currentPage === page
                         ? "bg-indigo-600 text-white"
-                        : "text-gray-500 hover:bg-gray-100"
+                        : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-hover"
                     }`}>
                     {page}
                   </button>
@@ -249,8 +259,8 @@ export function Table<T extends { id: string }>({
               disabled={currentPage === totalPages}
               className={`p-2 rounded ${
                 currentPage === totalPages
-                  ? "text-gray-300 cursor-not-allowed"
-                  : "text-gray-500 hover:bg-gray-100"
+                  ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-hover"
               }`}>
               <ChevronRight className="h-5 w-5" />
             </button>

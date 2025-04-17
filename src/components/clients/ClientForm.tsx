@@ -29,37 +29,37 @@ export function ClientForm({
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700">Nome</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Nome</label>
         <input
           type="text"
           value={formData.name || ""}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           required
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Email</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
         <input
           type="email"
           value={formData.email || ""}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           required
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">CPF</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">CPF</label>
         <MaskedInput
           mask={cpfMask}
           value={formData.cpf || ""}
           onChange={(value) => setFormData({ ...formData, cpf: value })}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           required
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Telefone
         </label>
         <div className="mt-1 flex gap-2">
@@ -70,7 +70,7 @@ export function ClientForm({
               setCountryCode(newCountryCode);
               setFormData((prev) => ({ ...prev, phone: "" }));
             }}
-            className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+            className="rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
             {countryOptions.map((option) => (
               <option key={option.code} value={option.code}>
                 {option.name}
@@ -90,14 +90,14 @@ export function ClientForm({
                   phone: cleanValue ? `${countryCode}${cleanValue}` : "",
                 }));
               }}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               required
             />
           </div>
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Endereço
         </label>
         <input
@@ -106,7 +106,7 @@ export function ClientForm({
           onChange={(e) =>
             setFormData({ ...formData, address: e.target.value })
           }
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           required
         />
       </div>

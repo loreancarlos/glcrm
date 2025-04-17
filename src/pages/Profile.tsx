@@ -143,7 +143,7 @@ export function Profile() {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-2xl font-bold mb-6">Perfil do Usuário</h2>
+        <h2 className="text-2xl font-bold mb-6 dark:text-white">Perfil do Usuário</h2>
 
         <div className="space-y-4">
           <div>

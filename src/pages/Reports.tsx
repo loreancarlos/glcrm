@@ -198,7 +198,7 @@ export function Reports() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Relatórios</h1>
+        <h1 className="text-2xl font-bold dark:text-white">Relatórios</h1>
       </div>
 
       <ReportFilters
