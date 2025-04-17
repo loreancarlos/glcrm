@@ -33,6 +33,7 @@ export function ImportLeadsModal({
   const [selectedDevelopments, setSelectedDevelopments] = useState<string[]>(
     []
   );
+  const [selectedSource, setSelectedSource] = useState("");
   const [fileData, setFileData] = useState<any[] | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [haveBusiness, setHaveBusiness] = useState<any[] | null>(null);
@@ -105,6 +106,11 @@ export function ImportLeadsModal({
       return;
     }
 
+    if (!selectedSource) {
+      setError("Selecione a origem dos leads");
+      return;
+    }
+
     try {
       setNumberImports(0);
       setHaveBusiness([]);
@@ -117,7 +123,7 @@ export function ImportLeadsModal({
         phone: row.telefone.toString().replace(/\D/g, ""),
         developmentsInterest: selectedDevelopments,
         brokerId: showBrokerField ? selectedBroker : currentUserId,
-        source: "importedList",
+        source: selectedSource,
       }));
       setNumberImports(leads.length);
       setHaveBusiness(await onImport(leads));
@@ -134,6 +140,16 @@ export function ImportLeadsModal({
       id: broker.id,
       label: broker.name,
     })),
+  ];
+
+  const sourceOptions = [
+    { id: "paidTraffic", label: "Tráfego Pago" },
+    { id: "indication", label: "Indicação" },
+    { id: "organic", label: "Orgânico" },
+    { id: "tent", label: "Tenda" },
+    { id: "doorToDoor", label: "Porta a Porta" },
+    { id: "website", label: "Site" },
+    { id: "importedList", label: "Lista Importada" },
   ];
 
   const filteredDevelopments = developments.filter(
@@ -264,6 +280,15 @@ export function ImportLeadsModal({
             </p>
           )}
         </div>
+
+        <Combobox
+          options={sourceOptions}
+          value={selectedSource}
+          onChange={setSelectedSource}
+          placeholder="Selecione a origem dos leads"
+          label="Origem do Lead"
+          required
+        />
 
         <div className="mt-4">
           <label className="block text-sm font-medium text-gray-700">
