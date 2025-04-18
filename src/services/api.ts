@@ -330,8 +330,9 @@ class ApiClient {
   async createCallModeSession(data: {
     startTime: Date;
     endTime: Date;
-    leadsViewed: string[];
+    businessViewed: string[];
     answeredCalls: number;
+    talkedCalls: number;
     scheduledCalls: number;
     whatsappCalls: number;
     notInterestCalls: number;
@@ -350,8 +351,9 @@ class ApiClient {
     id: string,
     data: {
       endTime?: Date;
-      leadsViewed?: string[];
+      businessViewed?: string[];
       answeredCalls?: number;
+      talkedCalls: number;
       scheduledCalls?: number;
       whatsappCalls?: number;
       notInterestCalls?: number;
