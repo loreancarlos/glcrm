@@ -216,16 +216,19 @@ export function Businesses() {
           let countScheduled = 0;
           let countLost = 0;
           let countTalked = 0;
+          let countAnsweredCalls = 0;
 
           if (formData.status === "whatsapp") {
             countWhatsapp = 1;
           } else if (formData.status === "recall") {
+            countAnsweredCalls = 1;
             countRecall = 1;
-            countTalked = 1;
           } else if (formData.status === "scheduled") {
+            countAnsweredCalls = 1;
             countScheduled = 1;
             countTalked = 1;
           } else if (formData.status === "lost") {
+            countAnsweredCalls = 1;
             countLost = 1;
             countTalked = 1;
           }
@@ -234,7 +237,7 @@ export function Businesses() {
             developmentId: formData.developmentId || "",
             endTime: new Date(),
             businessViewed: [editingBusiness.id],
-            answeredCalls: 0,
+            answeredCalls: countAnsweredCalls,
             talkedCalls: countTalked,
             scheduledCalls: countScheduled,
             whatsappCalls: countWhatsapp,
