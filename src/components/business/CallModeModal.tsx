@@ -179,13 +179,15 @@ export function CallModeModal({
     } else {
       if (voicemail) {
         newVoicemailCount++;
-      } else if (whatsapp) {
-        newWhatsappCount++;
       } else if (numberNotExists) {
         newInvalidNumberCount++;
       } else if (notReceivingCalls) {
         newNotReceivingCount++;
       }
+    }
+
+    if (whatsapp) {
+      newWhatsappCount++;
     }
 
     // Atualiza os contadores no estado
@@ -281,13 +283,15 @@ export function CallModeModal({
     } else {
       if (voicemail) {
         finalVoicemailCount++;
-      } else if (whatsapp) {
-        finalWhatsappCount++;
       } else if (numberNotExists) {
         finalInvalidNumberCount++;
       } else if (notReceivingCalls) {
         finalNotReceivingCount++;
       }
+    }
+
+    if (whatsapp) {
+      finalWhatsappCount++;
     }
 
     // Salva o status do último negócio
@@ -334,12 +338,14 @@ export function CallModeModal({
       recallAt?: string | null;
       notes?: string | null;
       lastCallAt?: Date;
+      brokerId?: string;
     } = {
       status,
       lastCallAt,
       scheduledAt: null,
       recallAt: null,
       notes,
+      brokerId: currentBusiness.brokerId,
     };
     if (answered) {
       if (talked) {
