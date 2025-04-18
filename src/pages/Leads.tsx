@@ -185,7 +185,7 @@ export function Leads() {
         brokerId: user?.role === "broker" ? user.id : formData.brokerId,
       };
       if (editingLead) {
-        await updateLead(editingLead.id, leadData);
+        await updateLead(editingLead.id, formData);
       } else {
         await addLead(leadData);
       }
