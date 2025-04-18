@@ -142,29 +142,29 @@ export function Profile() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-8">
-      <div className="bg-white shadow rounded-lg p-6">
+      <div className="bg-white shadow rounded-lg p-6 dark:bg-dark-secondary">
         <h2 className="text-2xl font-bold mb-6 dark:text-white">Perfil do Usuário</h2>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Nome
             </label>
-            <p className="mt-1 text-gray-900">{user.name}</p>
+            <p className="mt-1 text-gray-900 dark:text-white">{user.name}</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Email
             </label>
-            <p className="mt-1 text-gray-900">{user.email}</p>
+            <p className="mt-1 text-gray-900 dark:text-white">{user.email}</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Perfil
             </label>
-            <p className="mt-1 text-gray-900">
+            <p className="mt-1 text-gray-900 dark:text-white">
               {user.role === "admin" && "Administrador"}
               {user.role === "broker" && "Corretor"}
               {user.role === "teamLeader" && "Supervisor"}
@@ -173,18 +173,18 @@ export function Profile() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Time
             </label>
-            <p className="mt-1 text-gray-900">{getUserTeam()}</p>
+            <p className="mt-1 text-gray-900 dark:text-white">{getUserTeam()}</p>
           </div>
         </div>
       </div>
 
-      <div className="bg-white shadow rounded-lg p-6">
+      <div className="bg-white shadow rounded-lg p-6 dark:bg-dark-secondary">
         <div className="flex items-center space-x-2 mb-6">
-          <Calendar className="h-5 w-5 text-gray-400" />
-          <h2 className="text-2xl font-bold">Google Calendar</h2>
+          <Calendar className="h-5 w-5 text-gray-400 dark:text-white"/>
+          <h2 className="text-2xl font-bold dark:text-white">Google Calendar</h2>
         </div>
 
         <div className="space-y-4">
@@ -209,13 +209,13 @@ export function Profile() {
 
               {calendars.length > 0 && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">
                     Selecione um Calendário
                   </label>
                   <select
                     value={selectedCalendar || ""}
                     onChange={(e) => handleCalendarSelect(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="">Selecione um calendário</option>
                     {calendars.map((calendar) => (
                       <option key={calendar.id} value={calendar.id}>
@@ -230,48 +230,48 @@ export function Profile() {
         </div>
       </div>
 
-      <div className="bg-white shadow rounded-lg p-6">
+      <div className="bg-white shadow rounded-lg p-6 dark:bg-dark-secondary">
         <div className="flex items-center space-x-2 mb-6">
-          <Key className="h-5 w-5 text-gray-400" />
-          <h2 className="text-2xl font-bold">Alterar Senha</h2>
+          <Key className="h-5 w-5 text-gray-400 dark:text-white" />
+          <h2 className="text-2xl font-bold dark:text-white">Alterar Senha</h2>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Senha Atual
             </label>
             <input
               type="password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Nova Senha
             </label>
             <input
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Confirmar Nova Senha
             </label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               required
             />
           </div>

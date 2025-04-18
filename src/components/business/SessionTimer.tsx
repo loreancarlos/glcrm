@@ -32,7 +32,7 @@ export function SessionTimer({ startTime }: SessionTimerProps) {
   }, [startTime]);
 
   return (
-    <div className="flex items-center space-x-2 text-gray-600">
+    <div className="flex items-center space-x-2 text-gray-600 dark:text-white">
       <Timer className="h-5 w-5" />
       <span className="font-mono text-lg">{elapsedTime}</span>
     </div>

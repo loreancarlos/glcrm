@@ -5,6 +5,7 @@ import { Upload, AlertCircle, Search, X, FileText } from "lucide-react";
 import { read, utils } from "xlsx";
 import { Combobox } from "../common/Combobox";
 import { User, Development } from "../../types";
+import { removeAcento } from "../../utils/format";
 
 interface ImportLeadsModalProps {
   isOpen: boolean;
@@ -67,7 +68,6 @@ export function ImportLeadsModal({
           setFileName(null);
           return;
         }
-
         setFileData(jsonData);
         setFileName(file.name);
         setError(null);
@@ -119,7 +119,7 @@ export function ImportLeadsModal({
 
       // Transform data to match API format
       const leads = fileData.map((row: any) => ({
-        name: row.nome,
+        name: removeAcento(row.nome) || "Sem nome",
         phone: row.telefone.toString().replace(/\D/g, ""),
         developmentsInterest: selectedDevelopments,
         brokerId: showBrokerField ? selectedBroker : currentUserId,
@@ -198,7 +198,9 @@ export function ImportLeadsModal({
               <AlertCircle className="h-5 w-5 text-blue-400" />
             </div>
             <div className="ml-3">
-              <h3 className="text-sm font-medium text-blue-800 dark:text-blue-400">Instruções</h3>
+              <h3 className="text-sm font-medium text-blue-800 dark:text-blue-400">
+                Instruções
+              </h3>
               <div className="mt-2 text-sm text-blue-700 dark:text-blue-400">
                 <p className="mb-2">
                   O arquivo Excel deve conter as seguintes colunas:
@@ -246,12 +248,12 @@ export function ImportLeadsModal({
               className="block w-full rounded-md border-gray-300 pl-10 dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             />
             {isSearchFocused && filteredDevelopments.length > 0 && (
-              <div className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <div className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {filteredDevelopments.map((development) => (
                   <div
                     key={development.id}
                     onClick={() => handleAddDevelopment(development.id)}
-                    className="relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-indigo-50">
+                    className="relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-indigo-50 dark:hover:bg-dark-hover">
                     {development.name}
                   </div>
                 ))}
@@ -291,7 +293,7 @@ export function ImportLeadsModal({
         />
 
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Arquivo Excel
           </label>
           <div className="mt-1 flex flex-col gap-4">
@@ -329,7 +331,9 @@ export function ImportLeadsModal({
                     </label>
                     <p className="pl-1">ou arraste e solte</p>
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-300">XLSX, XLS até 10MB</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-300">
+                    XLSX, XLS até 10MB
+                  </p>
                 </div>
               </div>
             )}

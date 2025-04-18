@@ -477,7 +477,7 @@ export function CallModeModal({
     label: string;
   }) => (
     <div className="flex items-center justify-between">
-      <span className="text-sm font-medium text-gray-700">{label}</span>
+      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</span>
       <label className="flex items-center justify-between cursor-pointer">
         <div className="relative inline-block w-12 h-6">
           <input
@@ -488,7 +488,7 @@ export function CallModeModal({
           />
           <div
             className={`block w-12 h-6 rounded-full transition-colors duration-200 ease-in-out ${
-              checked ? "bg-indigo-600" : "bg-gray-300"
+              checked ? "bg-indigo-600" : "bg-gray-300 dark:bg-gray-500"
             }`}
           />
           <div
@@ -506,15 +506,17 @@ export function CallModeModal({
       <div className="space-y-6">
         <div className="flex justify-between items-center mb-4">
           <SessionTimer startTime={startTime} />
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-500 dark:text-white">
             Nº de Negócios: {businesses.length}
           </div>
         </div>
 
-        <div className="bg-gray-50 p-6 rounded-lg">
+        <div className="bg-gray-50 p-6 rounded-lg dark:bg-dark-hover">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <h3 className="text-sm font-medium text-gray-500">Nome</h3>
+              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300">
+                Nome
+              </h3>
               <div className="flex items-center mt-1">
                 {editingName ? (
                   <div className="flex items-center space-x-2 w-full">
@@ -522,7 +524,7 @@ export function CallModeModal({
                       type="text"
                       value={tempName}
                       onChange={(e) => setTempName(e.target.value)}
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-lg"
                     />
                     <button
                       onClick={handleSaveName}
@@ -537,12 +539,12 @@ export function CallModeModal({
                   </div>
                 ) : (
                   <div className="flex items-center space-x-2">
-                    <p className="text-lg font-semibold text-gray-900">
+                    <p className="text-lg font-semibold text-gray-900 dark:text-white">
                       {currentLead.name}
                     </p>
                     <button
                       onClick={handleEditName}
-                      className="text-gray-400 hover:text-gray-600">
+                      className="text-gray-400 hover:text-gray-600 dark:text-white">
                       <Edit2 className="h-4 w-4" />
                     </button>
                   </div>
@@ -551,7 +553,9 @@ export function CallModeModal({
               {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
             </div>
             <div>
-              <h3 className="text-sm font-medium text-gray-500">Telefone</h3>
+              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300">
+                Telefone
+              </h3>
 
               <div className="flex items-center mt-1">
                 {editingPhone ? (
@@ -560,7 +564,7 @@ export function CallModeModal({
                       type="text"
                       value={tempPhone}
                       onChange={(e) => setTempPhone(e.target.value)}
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-lg"
                     />
                     <button
                       onClick={handleSavePhone}
@@ -575,7 +579,7 @@ export function CallModeModal({
                   </div>
                 ) : (
                   <div className="flex items-center space-x-2">
-                    <p className="mt-1 text-lg font-semibold text-gray-900">
+                    <p className="mt-1 text-lg font-semibold text-gray-900 dark:text-white">
                       <a
                         href={`tel:015 ${formatPhoneDisplay(
                           currentLead.phone
@@ -585,7 +589,7 @@ export function CallModeModal({
                     </p>
                     <button
                       onClick={handleEditPhone}
-                      className="text-gray-400 hover:text-gray-600">
+                      className="text-gray-400 hover:text-gray-600 dark:text-white">
                       <Edit2 className="h-4 w-4" />
                     </button>
                   </div>
@@ -594,19 +598,19 @@ export function CallModeModal({
               {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
             </div>
             <div>
-              <h3 className="text-sm font-medium text-gray-500">
+              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300">
                 Empreendimento
               </h3>
-              <p className="mt-1 text-lg font-semibold text-gray-900">
+              <p className="mt-1 text-lg font-semibold text-gray-900 dark:text-white">
                 {currentDevelopment.name}
               </p>
             </div>
             {currentBusiness.lastCallAt && (
               <div>
-                <h3 className="text-sm font-medium text-gray-500">
+                <h3 className="text-sm font-medium text-gray-500 dark:text-gray-300">
                   Última Ligação
                 </h3>
-                <p className="mt-1 text-lg font-semibold text-gray-900">
+                <p className="mt-1 text-lg font-semibold text-gray-900 dark:text-white">
                   {formatDateTime(currentBusiness.lastCallAt)}
                 </p>
               </div>
@@ -659,12 +663,12 @@ export function CallModeModal({
                     />
                     {scheduled && (
                       <div>
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                           Data e Hora
                         </label>
                         <input
                           type="datetime-local"
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                           value={scheduledDateTime}
                           onChange={(e) => setScheduledDateTime(e.target.value)}
                         />
@@ -687,12 +691,12 @@ export function CallModeModal({
 
                 {rescheduled && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Data e Hora
                     </label>
                     <input
                       type="datetime-local"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       value={scheduledDateTime}
                       onChange={(e) => setScheduledDateTime(e.target.value)}
                     />
@@ -749,14 +753,14 @@ export function CallModeModal({
             />
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Anotações
               </label>
               <textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-dark-secondary dark:text-white dark:placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 placeholder="Adicione suas anotações aqui..."
               />
             </div>
