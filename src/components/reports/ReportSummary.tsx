@@ -1,5 +1,8 @@
 import React from "react";
 import { ReportData } from "../../types";
+import { FaWhatsapp } from "react-icons/fa";
+import { TbUserCancel } from "react-icons/tb";
+import { FiPhoneIncoming, FiPhoneMissed, FiPhoneOff, FiVoicemail } from "react-icons/fi";
 
 interface ReportSummaryProps {
   data: ReportData;
@@ -51,32 +54,32 @@ export function ReportSummary({ data }: ReportSummaryProps) {
     {
       title: "WhatsApp",
       value: data.whatsappCalls,
-      icon: "📱",
+      icon: <FaWhatsapp className="h-8 w-8 mr-1 text-green-600" />,
     },
     {
       title: "Sem Interesse",
       value: data.notInterestCalls,
-      icon: "❌",
+      icon: <TbUserCancel className="h-8 w-8 mr-1 text-red-600" />,
     },
     {
-      title: "Religaram",
+      title: "Religar",
       value: data.recallCalls,
-      icon: "📞",
+      icon: <FiPhoneIncoming className="h-8 w-8 mr-1 text-blue-600"/>,
     },
     {
       title: "Caixa Postal",
       value: data.voicemailCalls,
-      icon: "📧",
+      icon: <FiVoicemail className="h-8 w-8 mr-1 text-yellow-600"/>,
     },
     {
       title: "Número Inválido",
       value: data.invalidNumberCalls,
-      icon: "⚠️",
+      icon: <FiPhoneOff className="h-8 w-8 mr-1 text-gray-400" />,
     },
     {
       title: "Não Recebe",
       value: data.notReceivingCalls,
-      icon: "🚫",
+      icon: <FiPhoneMissed className="h-8 w-8 mr-1 text-orange-600" />,
     },
   ];
 
