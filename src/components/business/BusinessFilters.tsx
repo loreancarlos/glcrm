@@ -65,13 +65,19 @@ export function BusinessFilters({
   const statusOptions = [
     { id: "", label: "" },
     { id: "new", label: "Novo" },
+    { id: "scheduled", label: "Agendado" },
     { id: "recall", label: "Retornar" },
     { id: "whatsapp", label: "WhatsApp" },
-    { id: "scheduled", label: "Agendado" },
+    { id: "appear", label: "Compareceu" },
+    { id: "unfinishedCad", label: "CAD Incompleta" },
+    { id: "finishedCad", label: "CAD Completa" },
+    { id: "sold", label: "Vendido" },
     { id: "lost", label: "Perdido" },
+    { id: "lostWithCad", label: "Perdido com CAD" },
   ];
 
-  const shouldShowError = hasValidationErrors && (!selectedDevelopment || selectedStatus !== "new");
+  const shouldShowError =
+    hasValidationErrors && (!selectedDevelopment || selectedStatus !== "new");
 
   return (
     <div className="space-y-4">
@@ -81,7 +87,14 @@ export function BusinessFilters({
         placeholder="Pesquisar por nome, telefone ou empreendimento..."
       />
 
-      <div className={`grid grid-cols-1 ${showTeamFilter ? 'md:grid-cols-4' : showBrokerFilter ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-4`}>
+      <div
+        className={`grid grid-cols-1 ${
+          showTeamFilter
+            ? "md:grid-cols-4"
+            : showBrokerFilter
+            ? "md:grid-cols-3"
+            : "md:grid-cols-2"
+        } gap-4`}>
         <Combobox
           options={developmentOptions}
           value={selectedDevelopment}

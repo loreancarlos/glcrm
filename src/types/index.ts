@@ -93,7 +93,17 @@ export interface Business {
     | "doorToDoor"
     | "tent"
     | "importedList";
-  status: "new" | "recall" | "whatsapp" | "scheduled" | "lost";
+  status:
+    | "new"
+    | "recall"
+    | "whatsapp"
+    | "scheduled"
+    | "appear"
+    | "unfinishedCad"
+    | "finishedCad"
+    | "sold"
+    | "lost"
+    | "lostWithCad";
   scheduledAt?: string | null;
   recallAt?: string | null;
   notes?: string | null;

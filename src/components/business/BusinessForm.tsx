@@ -42,7 +42,12 @@ export function BusinessForm({
     { value: "scheduled", label: "Agendado" },
     { value: "recall", label: "Retornar" },
     { value: "whatsapp", label: "WhatsApp" },
+    { value: "appear", label: "Compareceu" },
+    { value: "unfinishedCad", label: "CAD Incompleta" },
+    { value: "finishedCad", label: "CAD Completa" },
+    { value: "sold", label: "Vendido" },
     { value: "lost", label: "Perdido" },
+    { value: "lostWithCad", label: "Perdido com CAD" },
   ];
 
   const leadOptions = [

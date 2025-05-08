@@ -27,7 +27,7 @@ export const getBusinessColumns = () => [
         </a>
         <a
           href={`https://api.whatsapp.com/send?phone=${value}`}
-          className="text-green-600 hover:underline font-medium"
+          className="text-green-600 hover:text-green-900 hover:underline font-medium"
           target="_blank">
           <FaWhatsapp size={`1.5em`} />
         </a>
@@ -72,14 +72,24 @@ export const getBusinessColumns = () => [
         recall: "Retornar",
         whatsapp: "WhatsApp",
         scheduled: "Agendado",
+        appear: "Compareceu",
+        unfinishedCad: "CAD Incompleta",
+        finishedCad: "CAD Completa",
+        sold: "Vendido",
         lost: "Perdido",
+        lostWithCad: "Perdido com CAD",
       };
       const colorMap = {
         new: "bg-blue-100 text-blue-800",
         recall: "bg-yellow-100 text-yellow-800",
-        whatsapp: "bg-green-100 text-green-800",
+        whatsapp: "bg-orange-100 text-orange-800",
         scheduled: "bg-purple-100 text-purple-800",
+        appear: "bg-brow-100 text-brow-800",
+        unfinishedCad: "bg-orange-100 text-orange-800",
+        finishedCad: "bg-green-100 text-green-800",
+        sold: "bg-green-300 text-green-800",
         lost: "bg-red-100 text-red-800",
+        lostWithCad: "bg-red-200 text-red-800",
       };
       return (
         <span
