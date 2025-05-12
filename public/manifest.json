@@ -3,6 +3,8 @@
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "short_name": "GL CRM",
+  "start_url": "https://glcrm.vercel.app",
+  "lang": "pt",
   "description": "CRM proprietário GL Soluções Imobiliárias",
   "categories": [
     "business",
