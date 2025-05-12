@@ -5,6 +5,12 @@
   "short_name": "GL CRM",
   "start_url": "https://glcrm.vercel.app",
   "lang": "pt",
+  "display_override": [
+  "window-controls-overlay",
+  "standalone",
+  "browser"
+  ],
+  "display": "standalone",
   "description": "CRM proprietário GL Soluções Imobiliárias",
   "categories": [
     "business",
